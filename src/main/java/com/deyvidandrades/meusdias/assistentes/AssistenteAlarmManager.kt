@@ -5,6 +5,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import androidx.preference.PreferenceManager
 import com.deyvidandrades.meusdias.servicos.NotificationReceiver
 import java.util.Calendar
 
@@ -30,9 +31,11 @@ class AssistenteAlarmManager {
                     PendingIntent.FLAG_IMMUTABLE
                 )
 
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+
                 val calendar: Calendar = Calendar.getInstance().apply {
                     timeInMillis = System.currentTimeMillis()
-                    set(Calendar.HOUR_OF_DAY, 19)
+                    set(Calendar.HOUR_OF_DAY, sharedPreferences.getInt("horario", 19))
                 }
 
                 alarmManager.setInexactRepeating(

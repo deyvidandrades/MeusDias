@@ -13,6 +13,27 @@
             android:key="notificacoes"
             android:title="Notificações" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="notificacoes"
+            android:key="notificacao_recorde"
+            android:title="Recordes" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="notificacoes"
+            android:key="notificacao_diaria"
+            android:title="Notificações diárias" />
+
+        <SeekBarPreference
+            android:defaultValue="19"
+            android:dependency="notificacoes"
+            android:key="horario"
+            android:max="23"
+            android:summary="Escolha qual o melhor horário para receber suas notificações diárias!"
+            android:title="Horário das notificações"
+            app:showSeekBarValue="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

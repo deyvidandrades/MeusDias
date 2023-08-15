@@ -25,7 +25,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
@@ -104,24 +103,24 @@ class MainActivity : AppCompatActivity() {
         btnShare.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
 
-           /* if (intent.resolveActivity(packageManager) != null) {
+            /* if (intent.resolveActivity(packageManager) != null) {
 
-                val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
-                val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
+                 val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
+                 val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
 
-                val intent = Intent("com.instagram.share.ADD_TO_STORY")
-                intent.putExtra("source_application", "1410341523172529")
-                intent.setDataAndType(Uri.parse(bitmap.toString()), "image/jpg")
-                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                 val intent = Intent("com.instagram.share.ADD_TO_STORY")
+                 intent.putExtra("source_application", "1410341523172529")
+                 intent.setDataAndType(Uri.parse(bitmap.toString()), "image/jpg")
+                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
 
-                startActivityForResult(intent, 0)
-            } else
-                Toast.makeText(
-                    this@MainActivity,
-                    "Não foi possível compartilhar seu progresso. =(",
-                    Toast.LENGTH_LONG
-                ).show()
-                */
+                 startActivityForResult(intent, 0)
+             } else
+                 Toast.makeText(
+                     this@MainActivity,
+                     "Não foi possível compartilhar seu progresso. =(",
+                     Toast.LENGTH_LONG
+                 ).show()
+                 */
 
             val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
             val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
@@ -238,24 +237,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun exibirNotificacao(texto: String) {
+        if (sharedPref.getBoolean("notificacao_recorde", true)) {
+            val builder = Notification.Builder(this, channelId)
+                .setColorized(true)
+                .setColor(getColor(R.color.accent))
+                .setCategory(Notification.CATEGORY_REMINDER)
+                .setContentTitle("Novo recorde!")
+                .setContentText(texto)
+                .setSmallIcon(R.drawable.round_trending_up_24)
 
-        val builder = Notification.Builder(this, channelId)
-            .setColorized(true)
-            .setColor(getColor(R.color.accent))
-            .setCategory(Notification.CATEGORY_REMINDER)
-            .setContentTitle("Novo recorde!")
-            .setContentText(texto)
-            .setSmallIcon(R.drawable.round_trending_up_24)
-
-        with(NotificationManagerCompat.from(this)) {
-            if (ActivityCompat.checkSelfPermission(
-                    this@MainActivity,
-                    Manifest.permission.POST_NOTIFICATIONS
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                return
+            with(NotificationManagerCompat.from(this)) {
+                if (ActivityCompat.checkSelfPermission(
+                        this@MainActivity,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    return
+                }
+                notify(2, builder.build())
             }
-            notify(2, builder.build())
         }
     }
 
