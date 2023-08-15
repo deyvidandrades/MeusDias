@@ -146,7 +146,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun saveScreenshot(bitmap: Bitmap): Uri? {
         // Save the screenshot using MediaStore
-        val displayName = "screenshot_" + System.currentTimeMillis() + ".png"
+        val displayName = "screenshot_meus_dias.png"
         val mimeType = "image/png"
 
         val values = ContentValues()
