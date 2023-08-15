@@ -11,7 +11,7 @@ import java.util.Calendar
 class AssistenteAlarmManager {
 
     companion object {
-        @SuppressLint("UnspecifiedImmutableFlag")
+
         fun criarAlarme(context: Context) {
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -19,7 +19,7 @@ class AssistenteAlarmManager {
                 context,
                 2,
                 Intent(context, NotificationReceiver::class.java),
-                PendingIntent.FLAG_NO_CREATE
+                PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
             )
 
             if (intentVerificacao == null) {
