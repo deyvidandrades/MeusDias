@@ -1,0 +1,30 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MeusDias" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorPrimary">@color/background</item>
+        <item name="colorAccent">@color/accent</item>
+
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">@color/background</item>
+
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:textColorSecondary">@color/textLight</item>
+
+    </style>
+
+    <style name="Theme.MeusDias" parent="Base.Theme.MeusDias" />
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/backgroundLight</item>
+
+        <item name="windowSplashScreenAnimationDuration">1500</item>
+
+        <item name="postSplashScreenTheme">@style/Base.Theme.MeusDias</item>
+    </style>
+</resources>

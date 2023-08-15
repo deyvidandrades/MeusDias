@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Meus Dias</string>
+
+    <string name="meu_recorde_de">Meu recorde é de</string>
+    <string name="_0_dias">0 dias</string>
+    <string name="sem_me_dar_mal">sem me dar mal.</string>
+    <string name="estou_a">Estou a</string>
+    <string name="grupo_do_world_softwares">Grupo Do World Softwares</string>
+    <string name="clique_longo_para_editar">clique e segure na frase para editar.</string>
+    <string name="clique_longo_para_salvar">digite um ponto final para salvar.</string>
+    <string name="configura_es">Configurações</string>
+    <string name="app_version">Meus Dias v0.1.2 (Alpha)</string>
+    <string name="menu_de_op_es">Menu de opções</string>
+    <string name="compartilhar_nos_stories">Stories do Instagram</string>
+    <string name="sem">sem…</string>
+    <string name="voltar_a_pagina_anterior">voltar a pagina anterior</string>
+    <string name="compartilhar">Compartilhar</string>
+</resources>

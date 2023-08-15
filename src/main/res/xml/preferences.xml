@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="categoria_notificacoes"
+        android:title="Notificações"
+        app:initialExpandedChildrenCount="1">
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/round_notifications_24"
+            android:key="notificacoes"
+            android:title="Notificações" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="categoria_customizacao"
+        android:title="Recursos Experimentais"
+        app:initialExpandedChildrenCount="1">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:icon="@drawable/baseline_developer_board_24"
+            android:key="habilitar_experimentais"
+            android:summary="Recursos que ainda estão em desenvolvimento e podem apresentar falhas"
+            android:title="Habilitar recursos experimentais" />
+
+        <Preference
+            android:dependency="habilitar_experimentais"
+            android:key="reset"
+            android:summary="Apagar todos os dados de contagem e seus recordes."
+            android:title="Resetar" />
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:key="categoria_informacoes"
+        android:title="Sobre o aplicativo"
+        app:initialExpandedChildrenCount="2">
+
+        <Preference
+            android:icon="@drawable/ic_launcher_foreground"
+            android:key="versao"
+            android:summary="@string/app_version"
+            android:title="Versão" />
+
+        <Preference
+            android:key="creditos"
+            android:summary="Desenvolvido por @deyvidandrades"
+            android:title="Desenvolvedor" />
+    </PreferenceCategory>
+</androidx.preference.PreferenceScreen>
