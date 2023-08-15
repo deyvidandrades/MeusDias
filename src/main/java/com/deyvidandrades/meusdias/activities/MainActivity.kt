@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
 
         sharedPref = this.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
 
-
         val btnSettings: ImageView = findViewById(R.id.btn_settings)
         val btnShare: RelativeLayout = findViewById(R.id.btn_share)
 

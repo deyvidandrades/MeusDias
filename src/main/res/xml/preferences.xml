@@ -54,6 +54,19 @@
             android:summary="Apagar todos os dados de contagem e seus recordes."
             android:title="Resetar" />
 
+        <EditTextPreference
+            android:dependency="habilitar_experimentais"
+            android:dialogTitle="Timestamp"
+            android:key="debug_primeiro"
+            android:title="Alterar inicio do progresso"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:dependency="habilitar_experimentais"
+            android:dialogTitle="Integer"
+            android:key="debug_recorde"
+            android:title="Alterar recorde"
+            app:useSimpleSummaryProvider="true" />
     </PreferenceCategory>
 
 
