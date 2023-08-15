@@ -2,6 +2,7 @@ package com.deyvidandrades.meusdias.fragmentos
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -25,6 +26,17 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
 
         val debugPrimeiro: EditTextPreference? = findPreference("debug_primeiro")
         val debugRecorde: EditTextPreference? = findPreference("debug_recorde")
+
+        val versao: Preference? = findPreference("versao")
+
+        val info = requireContext().packageManager.getPackageInfo(
+            requireContext().packageName,
+            PackageManager.GET_ACTIVITIES
+        )
+
+        versao?.apply {
+            summary = "Meus Dias v${info.versionName} (Beta)"
+        }
 
         debugRecorde?.setDefaultValue(sharedPref.getString("recorde", "0"))
         debugPrimeiro?.setDefaultValue(sharedPref.getString("primeiro", "0"))
