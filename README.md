@@ -1,7 +1,7 @@
 # Meus dias
 O Meus dias é um aplicativo projetado para ajudá-lo a transformar seus objetivos em realidade, de forma descontraida, focando em um único objetivo de cada vez. Seja qual for sua ambição, desde a prática diária de meditação até a leitura consistente de um livro, o Meus Dias é o parceiro ideal para acompanhar seu progresso e manter sua motivação no topo!
 
-[Politica de Privacidade](politica_privacidade.png)
+[Politica de Privacidade](politica_privacidade.md)
 
 ![meusdias-banner](https://github.com/deyvidandrades/MeusDias/blob/master/app/src/main/meusdias-banner.png)
 
