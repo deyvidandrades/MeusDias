@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import com.deyvidandrades.meusdias.R
@@ -70,6 +72,10 @@ class NotificationReceiver : BroadcastReceiver() {
                 return
             }
             notify(2, builder.build())
+
+            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            val vibrationEffect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
+            vibrator.vibrate(vibrationEffect)
         }
     }
 }
