@@ -15,4 +15,6 @@
     <string name="sem">sem…</string>
     <string name="voltar_a_pagina_anterior">voltar a pagina anterior</string>
     <string name="compartilhar">Compartilhar</string>
+    <string name="a_o_de_compartilhar">Ação de compartilhar</string>
+    <string name="a_o_de_abrir_configura_es">Ação de abrir configurações</string>
 </resources>

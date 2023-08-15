@@ -44,7 +44,7 @@
             android:layout_alignParentEnd="true"
             android:background="@drawable/rounded_r16"
             android:backgroundTint="@color/backgroundLight"
-            android:contentDescription="@string/menu_de_op_es"
+            android:contentDescription="@string/a_o_de_abrir_configura_es"
             android:padding="12dp"
             android:src="@drawable/round_more_vert_24"
             app:tint="@color/accent" />
@@ -162,8 +162,8 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="2dp"
+            android:contentDescription="@string/a_o_de_compartilhar"
             android:src="@drawable/round_share_24"
-            app:tint="@color/textDark"
-            tools:ignore="ContentDescription" />
+            app:tint="@color/textDark" />
     </RelativeLayout>
 </RelativeLayout>
