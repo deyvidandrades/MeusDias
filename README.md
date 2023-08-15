@@ -3,7 +3,7 @@ O Meus dias é um aplicativo projetado para ajudá-lo a transformar seus objetiv
 
 [Politica de Privacidade](politica_privacidade.md)
 
-![meusdias-banner](https://github.com/deyvidandrades/MeusDias/blob/master/app/src/main/meusdias-banner.png)
+![meusdias-banner](https://raw.githubusercontent.com/deyvidandrades/MeusDias/master/src/main/meusdias-banner.png)
 
 
 <a href="https://play.google.com/store/apps/details?id=com.deyvidandrades.meusdias" target="_blank">
