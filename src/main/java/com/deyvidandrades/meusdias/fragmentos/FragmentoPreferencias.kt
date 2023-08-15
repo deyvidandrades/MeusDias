@@ -1,6 +1,7 @@
 package com.deyvidandrades.meusdias.fragmentos
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -10,10 +11,12 @@ import com.deyvidandrades.meusdias.R
 import java.util.Calendar
 
 class FragmentoPreferencias : PreferenceFragmentCompat() {
-    private val sharedPref = context?.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
+
+        sharedPref = context?.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)!!
 
         val notificacoes: SwitchPreference? = findPreference("notificacoes")
         val notificacaoRecorde: SwitchPreference? = findPreference("notificacao_recorde")
@@ -23,14 +26,14 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val debugPrimeiro: EditTextPreference? = findPreference("debug_primeiro")
         val debugRecorde: EditTextPreference? = findPreference("debug_recorde")
 
-        debugRecorde?.setDefaultValue(sharedPref?.getString("recorde", "0"))
-        debugPrimeiro?.setDefaultValue(sharedPref?.getString("primeiro", "0"))
+        debugRecorde?.setDefaultValue(sharedPref.getString("recorde", "0"))
+        debugPrimeiro?.setDefaultValue(sharedPref.getString("primeiro", "0"))
 
-        debugRecorde!!.setOnPreferenceChangeListener{ _, newValue ->
+        debugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
             salvarPreferencia("recorde", newValue.toString())
             true
         }
-        debugPrimeiro!!.setOnPreferenceChangeListener{ _, newValue ->
+        debugPrimeiro!!.setOnPreferenceChangeListener { _, newValue ->
             salvarPreferencia("primeiro", newValue.toString())
             true
         }
@@ -53,7 +56,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
     }
 
     private fun salvarPreferencia(key: String, value: String) {
-        with(sharedPref!!.edit()) {
+        with(sharedPref.edit()) {
             putString(key, value)
             apply()
         }
