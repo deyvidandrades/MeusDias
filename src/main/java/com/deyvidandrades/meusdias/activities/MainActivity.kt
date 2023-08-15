@@ -25,6 +25,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
@@ -103,15 +104,34 @@ class MainActivity : AppCompatActivity() {
         btnShare.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
 
+           /* if (intent.resolveActivity(packageManager) != null) {
+
+                val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
+                val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
+
+                val intent = Intent("com.instagram.share.ADD_TO_STORY")
+                intent.putExtra("source_application", "1410341523172529")
+                intent.setDataAndType(Uri.parse(bitmap.toString()), "image/jpg")
+                intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+                startActivityForResult(intent, 0)
+            } else
+                Toast.makeText(
+                    this@MainActivity,
+                    "Não foi possível compartilhar seu progresso. =(",
+                    Toast.LENGTH_LONG
+                ).show()
+                */
+
             val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
             val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
 
-            val intent = Intent("com.instagram.share.ADD_TO_STORY")
-            intent.putExtra("source_application", "1410341523172529")
-            intent.setDataAndType(Uri.parse(bitmap.toString()), "image/jpg")
-            intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-
-            startActivityForResult(intent, 0)
+            val shareIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, Uri.parse(bitmap.toString()))
+                type = "image/jpeg"
+            }
+            startActivity(Intent.createChooser(shareIntent, null))
         }
 
         //todo val newFragment = DialogoAlertaDados.newInstance()
