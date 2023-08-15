@@ -57,7 +57,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
 
     private fun salvarPreferencia(key: String, value: String) {
         with(sharedPref.edit()) {
-            putString(key, value)
+            if (value != "") putString(key, value) else putString(key, "0")
             apply()
         }
     }
