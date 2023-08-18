@@ -1,6 +1,5 @@
 package com.deyvidandrades.meusdias.assistentes
 
-import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
@@ -44,7 +43,23 @@ class AssistenteAlarmManager {
                     AlarmManager.INTERVAL_DAY,
                     pendingIntent
                 )
+
+                println("DWS.D - Alarme criado: Horario ${sharedPreferences.getInt("horario", 19)}")
             }
+        }
+
+        fun cancelarAlarme(context: Context) {
+            val existingPendingIntent = PendingIntent.getBroadcast(
+                context,
+                2,
+                Intent(context, NotificationReceiver::class.java),
+                PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            alarmManager.cancel(existingPendingIntent)
+
+            println("DWS.D - Alarme cancelado")
         }
     }
 }

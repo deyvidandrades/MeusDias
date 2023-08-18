@@ -7,8 +7,10 @@ import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreference
 import com.deyvidandrades.meusdias.R
+import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import java.util.Calendar
 
 class FragmentoPreferencias : PreferenceFragmentCompat() {
@@ -28,6 +30,12 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val debugRecorde: EditTextPreference? = findPreference("debug_recorde")
 
         val versao: Preference? = findPreference("versao")
+
+        val seekBarHorario: SeekBarPreference? = findPreference("horario")
+
+        seekBarHorario?.apply {
+            value = sharedPref.getInt("horario", 19)
+        }
 
         val info = requireContext().packageManager.getPackageInfo(
             requireContext().packageName,
@@ -62,6 +70,19 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
                 notificacaoRecorde!!.isChecked = false
                 notificacaoDiaria!!.isChecked = false
             }
+
+            true
+        }
+
+        seekBarHorario!!.setOnPreferenceChangeListener { _, newValue ->
+
+            with(sharedPref.edit()) {
+                putInt("horario", newValue as Int)
+                apply()
+            }
+
+            AssistenteAlarmManager.cancelarAlarme(requireContext())
+            AssistenteAlarmManager.criarAlarme(requireContext())
 
             true
         }
