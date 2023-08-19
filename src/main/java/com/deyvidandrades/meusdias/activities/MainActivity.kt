@@ -1,14 +1,9 @@
 package com.deyvidandrades.meusdias.activities
 
-import android.Manifest
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
@@ -26,24 +21,23 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationManagerCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
+import com.deyvidandrades.meusdias.assistentes.AssistenteNotificacoes
+import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
+import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias.Companion.Chaves
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.xml.KonfettiView
 import java.io.IOException
-import java.util.Calendar
 import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
-    private val channelId = "meus_dias_1"
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,7 +53,7 @@ class MainActivity : AppCompatActivity() {
         val tvInfo: TextView = findViewById(R.id.info)
         val etMensagem: EditText = findViewById(R.id.mensagem)
 
-        etMensagem.setText(carregarFrase())
+        etMensagem.setText(AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE))
         etMensagem.isFocusable = false
 
         etMensagem.setOnLongClickListener {
@@ -82,7 +76,11 @@ class MainActivity : AppCompatActivity() {
                     imm.hideSoftInputFromWindow(etMensagem.windowToken, 0)
 
                     tvInfo.setText(R.string.clique_longo_para_editar)
-                    salvarPreferencia("frase", etMensagem.text.toString())
+                    AssistentePreferencias.salvarPreferencia(
+                        this@MainActivity,
+                        Chaves.FRASE,
+                        etMensagem.toString()
+                    )
                 }
 
                 if (s.toString().contains("\n")) {
@@ -102,25 +100,6 @@ class MainActivity : AppCompatActivity() {
         btnShare.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
 
-            /* if (intent.resolveActivity(packageManager) != null) {
-
-                 val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
-                 val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
-
-                 val intent = Intent("com.instagram.share.ADD_TO_STORY")
-                 intent.putExtra("source_application", "1410341523172529")
-                 intent.setDataAndType(Uri.parse(bitmap.toString()), "image/jpg")
-                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-
-                 startActivityForResult(intent, 0)
-             } else
-                 Toast.makeText(
-                     this@MainActivity,
-                     "Não foi possível compartilhar seu progresso. =(",
-                     Toast.LENGTH_LONG
-                 ).show()
-                 */
-
             val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
             val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
 
@@ -132,13 +111,9 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(shareIntent, null))
         }
 
-        //todo val newFragment = DialogoAlertaDados.newInstance()
-        // newFragment.show(supportFragmentManager, "atualizacao")
-        //exibirNotificacao()
+        AssistenteNotificacoes.criarCanalDeNotificacoes(this)
 
-        createNotificationChannel()
-        calcularRecorde()
-
+        verificarRecorde()
         //salvarPreferencia("recorde", "72")
         //salvarPreferencia("primeiro","1687737763000")
         AssistenteAlarmManager.criarAlarme(this)
@@ -183,40 +158,48 @@ class MainActivity : AppCompatActivity() {
         return bitmap
     }
 
-    private fun calcularRecorde() {
-        val tvRecorde: TextView = findViewById(R.id.recorde)
-        val tvDias: TextView = findViewById(R.id.dias)
-        val linearLayout: LinearLayout = findViewById(R.id.linear_recorde)
+    private fun verificarRecorde() {
+        if (AssistentePreferencias.isRecorde(this)) {
+            val tvRecorde: TextView = findViewById(R.id.recorde)
+            val tvDias: TextView = findViewById(R.id.dias)
+            val linearLayout: LinearLayout = findViewById(R.id.linear_recorde)
 
-        val primeiroDia = carregarPrimeiro()
-        var numRecorde = carregarRecorde()
+            //Carregar preferências
+            val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
+            val numDias = AssistentePreferencias.carregarDias(this)
+            val numRecorde =
+                AssistentePreferencias.carregarPreferencia(this, Chaves.RECORDE)
 
-        val diferenca = Calendar.getInstance().timeInMillis - primeiroDia
-        val numDias = TimeUnit.MILLISECONDS.toDays(diferenca).toInt()
+            //Enviar Notificação
+            AssistenteNotificacoes.notificacaoRecorde(
+                this,
+                "Você já está a $numDias dias $frase"
+            )
 
-        if (numDias > numRecorde) {
-            exibirNotificacao("Você já está a " + numDias + " dias " + carregarFrase())
-
-            salvarPreferencia("recorde", numDias.toString())
+            //Salvar novo recorde
+            AssistentePreferencias.salvarPreferencia(
+                this,
+                Chaves.RECORDE,
+                numDias.toString()
+            )
 
             jogarConfetti()
 
-            numRecorde = numDias
-        }
+            //Atualizar UI
+            if (numDias < 2)
+                tvDias.text = String.format(Locale.getDefault(), "%d dia", numDias)
+            else
+                tvDias.text = String.format(Locale.getDefault(), "%d dias", numDias)
 
-        if (numDias < 2)
-            tvDias.text = String.format(Locale.getDefault(), "%d dia", numDias)
-        else
-            tvDias.text = String.format(Locale.getDefault(), "%d dias", numDias)
-
-        if (numRecorde == 0) {
-            //linearLayout.visibility = View.GONE
-        } else if (numRecorde < 2) {
-            tvRecorde.text = String.format(Locale.getDefault(), "%d dia.", numRecorde)
-            linearLayout.visibility = View.VISIBLE
-        } else {
-            tvRecorde.text = String.format(Locale.getDefault(), "%d dias.", numRecorde)
-            linearLayout.visibility = View.VISIBLE
+            if (numRecorde!!.toInt() == 0) {
+                //linearLayout.visibility = View.GONE
+            } else if (numRecorde.toInt() < 2) {
+                tvRecorde.text = String.format(Locale.getDefault(), "%d dia.", numRecorde)
+                linearLayout.visibility = View.VISIBLE
+            } else {
+                tvRecorde.text = String.format(Locale.getDefault(), "%d dias.", numRecorde)
+                linearLayout.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -233,58 +216,5 @@ class MainActivity : AppCompatActivity() {
                 position = Position.Relative(0.5, 0.3)
             )
         )
-    }
-
-    private fun exibirNotificacao(texto: String) {
-        if (sharedPref.getBoolean("notificacao_recorde", true)) {
-            val builder = Notification.Builder(this, channelId)
-                .setColorized(true)
-                .setColor(getColor(R.color.accent))
-                .setCategory(Notification.CATEGORY_REMINDER)
-                .setContentTitle("Novo recorde!")
-                .setContentText(texto)
-                .setSmallIcon(R.drawable.round_trending_up_24)
-
-            with(NotificationManagerCompat.from(this)) {
-                if (ActivityCompat.checkSelfPermission(
-                        this@MainActivity,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    return
-                }
-                notify(2, builder.build())
-            }
-        }
-    }
-
-    private fun createNotificationChannel() {
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val channel = NotificationChannel(channelId, "Meus dias", importance).apply {
-            description = "Progresso do app Meus Dias"
-        }
-        val notificationManager: NotificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(channel)
-    }
-
-    private fun salvarPreferencia(key: String, value: String) {
-        with(sharedPref.edit()) {
-            if (value != "") putString(key, value) else putString(key, "0")
-            apply()
-        }
-    }
-
-    private fun carregarRecorde(): Int {
-        return sharedPref.getString("recorde", "0")!!.toInt()
-    }
-
-    private fun carregarPrimeiro(): Long {
-        return sharedPref.getString("primeiro", Calendar.getInstance().timeInMillis.toString())!!
-            .toLong()
-    }
-
-    private fun carregarFrase(): String {
-        return sharedPref.getString("frase", "Sem me dar mal")!!
     }
 }

@@ -1,7 +1,5 @@
 package com.deyvidandrades.meusdias.fragmentos
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.preference.EditTextPreference
@@ -11,15 +9,14 @@ import androidx.preference.SeekBarPreference
 import androidx.preference.SwitchPreference
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
+import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
+import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias.Companion.Chaves
 import java.util.Calendar
 
-class FragmentoPreferencias : PreferenceFragmentCompat() {
-    private lateinit var sharedPref: SharedPreferences
+abstract class FragmentoPreferencias : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
-
-        sharedPref = context?.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)!!
 
         val notificacoes: SwitchPreference? = findPreference("notificacoes")
         val notificacaoRecorde: SwitchPreference? = findPreference("notificacao_recorde")
@@ -34,7 +31,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val seekBarHorario: SeekBarPreference? = findPreference("horario")
 
         seekBarHorario?.apply {
-            value = sharedPref.getInt("horario", 19)
+            value = AssistentePreferencias.carregarPreferencia(context, Chaves.HORARIO)!!.toInt()
         }
 
         val info = requireContext().packageManager.getPackageInfo(
@@ -46,21 +43,48 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             summary = "Meus Dias v${info.versionName} (Beta)"
         }
 
-        debugRecorde?.setDefaultValue(sharedPref.getString("recorde", "0"))
-        debugPrimeiro?.setDefaultValue(sharedPref.getString("primeiro", "0"))
+        debugRecorde?.setDefaultValue(
+            AssistentePreferencias.carregarPreferencia(
+                requireContext(),
+                Chaves.RECORDE
+            )
+        )
+        debugPrimeiro?.setDefaultValue(
+            AssistentePreferencias.carregarPreferencia(
+                requireContext(),
+                Chaves.PRIMEIRO
+            )
+        )
 
         debugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
-            salvarPreferencia("recorde", newValue.toString())
+            AssistentePreferencias.salvarPreferencia(
+                requireContext(),
+                Chaves.RECORDE,
+                newValue.toString()
+            )
             true
         }
         debugPrimeiro!!.setOnPreferenceChangeListener { _, newValue ->
-            salvarPreferencia("primeiro", newValue.toString())
+            AssistentePreferencias.salvarPreferencia(
+                requireContext(),
+                Chaves.PRIMEIRO,
+                newValue.toString()
+            )
             true
         }
 
         preferenciaReset!!.setOnPreferenceClickListener {
-            salvarPreferencia("primeiro", Calendar.getInstance().timeInMillis.toString())
-            salvarPreferencia("recorde", "0")
+            AssistentePreferencias.salvarPreferencia(
+                requireContext(),
+                Chaves.PRIMEIRO,
+                Calendar.getInstance().timeInMillis.toString()
+            )
+
+            AssistentePreferencias.salvarPreferencia(
+                requireContext(),
+                Chaves.RECORDE,
+                "0"
+            )
 
             true
         }
@@ -74,24 +98,11 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        seekBarHorario!!.setOnPreferenceChangeListener { _, newValue ->
-
-            with(sharedPref.edit()) {
-                putInt("horario", newValue as Int)
-                apply()
-            }
-
+        seekBarHorario!!.setOnPreferenceChangeListener { _, _ ->
             AssistenteAlarmManager.cancelarAlarme(requireContext())
             AssistenteAlarmManager.criarAlarme(requireContext())
 
             true
-        }
-    }
-
-    private fun salvarPreferencia(key: String, value: String) {
-        with(sharedPref.edit()) {
-            if (value != "") putString(key, value) else putString(key, "0")
-            apply()
         }
     }
 }
