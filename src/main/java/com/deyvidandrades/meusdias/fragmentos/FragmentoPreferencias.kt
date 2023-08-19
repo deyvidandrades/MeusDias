@@ -13,7 +13,7 @@ import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias.Companion.Chaves
 import java.util.Calendar
 
-abstract class FragmentoPreferencias : PreferenceFragmentCompat() {
+class FragmentoPreferencias : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences, rootKey)
