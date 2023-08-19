@@ -46,6 +46,7 @@ class AssistentePreferencias {
                 if (value != "") putString(key.value, value) else putString(key.value, "0")
                 apply()
             }
+            println("DWS.D - ${carregarPreferencia(context, Chaves.RECORDE)}")
         }
     }
 }

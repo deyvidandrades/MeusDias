@@ -53,7 +53,9 @@ class MainActivity : AppCompatActivity() {
         val tvInfo: TextView = findViewById(R.id.info)
         val etMensagem: EditText = findViewById(R.id.mensagem)
 
-        etMensagem.setText(AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE))
+        val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
+
+        etMensagem.setText(if (frase == "0") "sem..." else frase)
         etMensagem.isFocusable = false
 
         etMensagem.setOnLongClickListener {
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                     AssistentePreferencias.salvarPreferencia(
                         this@MainActivity,
                         Chaves.FRASE,
-                        etMensagem.toString()
+                        etMensagem.text.toString()
                     )
                 }
 
@@ -158,17 +160,36 @@ class MainActivity : AppCompatActivity() {
         return bitmap
     }
 
-    private fun verificarRecorde() {
-        if (AssistentePreferencias.isRecorde(this)) {
-            val tvRecorde: TextView = findViewById(R.id.recorde)
-            val tvDias: TextView = findViewById(R.id.dias)
-            val linearLayout: LinearLayout = findViewById(R.id.linear_recorde)
+    private fun updateUI(dias: Int, recorde: Int) {
+        val tvRecorde: TextView = findViewById(R.id.recorde)
+        val tvDias: TextView = findViewById(R.id.dias)
+        val linearLayout: LinearLayout = findViewById(R.id.linear_recorde)
 
-            //Carregar preferências
-            val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
-            val numDias = AssistentePreferencias.carregarDias(this)
-            val numRecorde =
-                AssistentePreferencias.carregarPreferencia(this, Chaves.RECORDE)
+        //Atualizar UI
+        if (dias < 2)
+            tvDias.text = String.format(Locale.getDefault(), "%d dia", dias)
+        else
+            tvDias.text = String.format(Locale.getDefault(), "%d dias", dias)
+
+        if (recorde == 0) {
+            //linearLayout.visibility = View.GONE
+        } else if (recorde < 2) {
+            tvRecorde.text = String.format(Locale.getDefault(), "%d dia.", recorde)
+            linearLayout.visibility = View.VISIBLE
+        } else {
+            tvRecorde.text = String.format(Locale.getDefault(), "%d dias.", recorde)
+            linearLayout.visibility = View.VISIBLE
+        }
+    }
+
+    private fun verificarRecorde() {
+        //Carregar preferências
+        val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
+        val numDias = AssistentePreferencias.carregarDias(this)
+        val numRecorde =
+            AssistentePreferencias.carregarPreferencia(this, Chaves.RECORDE)
+
+        if (AssistentePreferencias.isRecorde(this)) {
 
             //Enviar Notificação
             AssistenteNotificacoes.notificacaoRecorde(
@@ -184,23 +205,9 @@ class MainActivity : AppCompatActivity() {
             )
 
             jogarConfetti()
-
-            //Atualizar UI
-            if (numDias < 2)
-                tvDias.text = String.format(Locale.getDefault(), "%d dia", numDias)
-            else
-                tvDias.text = String.format(Locale.getDefault(), "%d dias", numDias)
-
-            if (numRecorde!!.toInt() == 0) {
-                //linearLayout.visibility = View.GONE
-            } else if (numRecorde.toInt() < 2) {
-                tvRecorde.text = String.format(Locale.getDefault(), "%d dia.", numRecorde)
-                linearLayout.visibility = View.VISIBLE
-            } else {
-                tvRecorde.text = String.format(Locale.getDefault(), "%d dias.", numRecorde)
-                linearLayout.visibility = View.VISIBLE
-            }
         }
+
+        updateUI(numDias, numRecorde!!.toInt())
     }
 
     private fun jogarConfetti() {

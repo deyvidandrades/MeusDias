@@ -98,9 +98,15 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        seekBarHorario!!.setOnPreferenceChangeListener { _, _ ->
+        seekBarHorario!!.setOnPreferenceChangeListener { _, newValue ->
             AssistenteAlarmManager.cancelarAlarme(requireContext())
             AssistenteAlarmManager.criarAlarme(requireContext())
+
+            AssistentePreferencias.salvarPreferencia(
+                requireContext(),
+                Chaves.HORARIO,
+                newValue.toString()
+            )
 
             true
         }
