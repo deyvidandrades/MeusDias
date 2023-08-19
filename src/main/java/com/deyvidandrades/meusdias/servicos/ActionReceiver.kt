@@ -4,6 +4,7 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
 import java.util.Calendar
 
 class ActionReceiver : BroadcastReceiver() {
@@ -15,12 +16,11 @@ class ActionReceiver : BroadcastReceiver() {
         notificationManager.cancel(2)
 
         if (!bundle!!.getBoolean("cumpriu", false)) {
-            val sharedPref = context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
-
-            with(sharedPref.edit()) {
-                putString("primeiro", Calendar.getInstance().timeInMillis.toString())
-                apply()
-            }
+            AssistentePreferencias.salvarPreferencia(
+                context,
+                AssistentePreferencias.Companion.Chaves.PRIMEIRO,
+                Calendar.getInstance().timeInMillis.toString()
+            )
         }
     }
 }
