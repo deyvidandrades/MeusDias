@@ -1,23 +1,15 @@
 package com.deyvidandrades.meusdias.activities
 
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Bitmap
-import android.graphics.Canvas
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -27,36 +19,45 @@ import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.AssistenteNotificacoes
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
-import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias.Companion.Chaves
+import com.deyvidandrades.meusdias.assistentes.AssistenteViewToBitmap
+import com.deyvidandrades.meusdias.assistentes.Chaves
+import com.google.android.play.core.review.ReviewManagerFactory
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.xml.KonfettiView
-import java.io.IOException
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
-
+    private lateinit var etMensagem: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContentView(R.layout.activity_main)
 
         sharedPref = this.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
+        etMensagem = findViewById(R.id.mensagem)
 
+        AssistenteNotificacoes.criarCanalDeNotificacoes(this)
+
+        configurarListeners()
+
+        updateUI()
+
+        verificarRecorde()
+
+        //verificarReview()
+        //salvarPreferencia("recorde", "72")
+        //salvarPreferencia("primeiro","1687737763000")
+        AssistenteAlarmManager.criarAlarme(this)
+    }
+
+    private fun configurarListeners() {
         val btnSettings: ImageView = findViewById(R.id.btn_settings)
         val btnShare: RelativeLayout = findViewById(R.id.btn_share)
-
         val tvInfo: TextView = findViewById(R.id.info)
-        val etMensagem: EditText = findViewById(R.id.mensagem)
-
-        val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
-
-        etMensagem.setText(if (frase == "0") "sem..." else frase)
-        etMensagem.isFocusable = false
 
         etMensagem.setOnLongClickListener {
             etMensagem.setText(etMensagem.text.toString().replace(".", ""))
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                     imm.hideSoftInputFromWindow(etMensagem.windowToken, 0)
 
                     tvInfo.setText(R.string.clique_longo_para_editar)
-                    AssistentePreferencias.salvarPreferencia(
+                    AssistentePreferencias.setPreferencias(
                         this@MainActivity,
                         Chaves.FRASE,
                         etMensagem.text.toString()
@@ -103,93 +104,46 @@ class MainActivity : AppCompatActivity() {
             AnimacaoBotao.animar(v)
 
             val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
-            val bitmap = saveScreenshot(getBitmapFromView(relativePrint))
+            val bitmapURI = AssistenteViewToBitmap.getViewToBitmapURI(this, relativePrint)
 
             val shareIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_STREAM, Uri.parse(bitmap.toString()))
+                putExtra(Intent.EXTRA_STREAM, Uri.parse(bitmapURI.toString()))
                 type = "image/jpeg"
             }
             startActivity(Intent.createChooser(shareIntent, null))
         }
-
-        AssistenteNotificacoes.criarCanalDeNotificacoes(this)
-
-        verificarRecorde()
-        //salvarPreferencia("recorde", "72")
-        //salvarPreferencia("primeiro","1687737763000")
-        AssistenteAlarmManager.criarAlarme(this)
     }
 
-    private fun saveScreenshot(bitmap: Bitmap): Uri? {
-        // Save the screenshot using MediaStore
-        val displayName = "screenshot_meus_dias.png"
-        val mimeType = "image/png"
-
-        val values = ContentValues()
-        values.put(MediaStore.Images.Media.DISPLAY_NAME, displayName)
-        values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
-
-        val contentResolver = contentResolver
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            values.put(
-                MediaStore.Images.Media.RELATIVE_PATH,
-                Environment.DIRECTORY_PICTURES + "/MeusDias"
-            )
-        }
-
-        // Save the image
-        val imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-        try {
-            val outputStream = contentResolver.openOutputStream(imageUri!!)
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-            outputStream?.close()
-            return imageUri
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return null
-    }
-
-    private fun getBitmapFromView(view: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            view.width, view.height, Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        view.draw(canvas)
-        return bitmap
-    }
-
-    private fun updateUI(dias: Int, recorde: Int) {
+    private fun updateUI() {
         val tvRecorde: TextView = findViewById(R.id.recorde)
         val tvDias: TextView = findViewById(R.id.dias)
-        val linearLayout: LinearLayout = findViewById(R.id.linear_recorde)
 
-        //Atualizar UI
-        if (dias < 2)
-            tvDias.text = String.format(Locale.getDefault(), "%d dia", dias)
-        else
-            tvDias.text = String.format(Locale.getDefault(), "%d dias", dias)
+        val dados = AssistentePreferencias.getPreferencias(this)
 
-        if (recorde == 0) {
-            //linearLayout.visibility = View.GONE
-        } else if (recorde < 2) {
-            tvRecorde.text = String.format(Locale.getDefault(), "%d dia.", recorde)
-            linearLayout.visibility = View.VISIBLE
-        } else {
-            tvRecorde.text = String.format(Locale.getDefault(), "%d dias.", recorde)
-            linearLayout.visibility = View.VISIBLE
-        }
+        //Atualizar Frase
+        val frase = dados[Chaves.FRASE.value].toString()
+        etMensagem.setText(frase)
+        etMensagem.isFocusable = false
+
+        //Atualizar Contador
+        val dias = dados[Chaves.DIAS.value]!!.toInt()
+        tvDias.text = if (dias < 2) "$dias dia" else "$dias dias"
+
+        //Atualizar Recorde
+        val recorde = dados[Chaves.RECORDE.value].toString().toInt()
+        tvRecorde.text = if (recorde < 2) "$recorde dia." else "$recorde dias."
     }
 
     private fun verificarRecorde() {
         //Carregar preferências
-        val frase = AssistentePreferencias.carregarPreferencia(this, Chaves.FRASE)
-        val numDias = AssistentePreferencias.carregarDias(this)
-        val numRecorde =
-            AssistentePreferencias.carregarPreferencia(this, Chaves.RECORDE)
+        val dados = AssistentePreferencias.getPreferencias(this)
 
-        if (AssistentePreferencias.isRecorde(this)) {
+        val frase = dados[Chaves.FRASE.value].toString()
+        val numDias = dados[Chaves.DIAS.value]!!.toInt()
+        val numRecorde = dados[Chaves.RECORDE.value]!!.toInt()
+
+        if (numDias > numRecorde) {
 
             //Enviar Notificação
             AssistenteNotificacoes.notificacaoRecorde(
@@ -198,16 +152,36 @@ class MainActivity : AppCompatActivity() {
             )
 
             //Salvar novo recorde
-            AssistentePreferencias.salvarPreferencia(
+            AssistentePreferencias.setPreferencias(
                 this,
                 Chaves.RECORDE,
                 numDias.toString()
             )
 
             jogarConfetti()
-        }
+            updateUI()
 
-        updateUI(numDias, numRecorde!!.toInt())
+            //Exibir AppReview
+            if (!AssistentePreferencias.getReview(this))
+                verificarReview()
+        }
+    }
+
+    private fun verificarReview() {
+        val manager = ReviewManagerFactory.create(this)//FakeReviewManager(this)
+
+        val request = manager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+
+                val flow = manager.launchReviewFlow(this, reviewInfo)
+                flow.addOnCompleteListener { _ ->
+                    println("DWS.D - Review")
+                    AssistentePreferencias.setReview(this)
+                }
+            }
+        }
     }
 
     private fun jogarConfetti() {

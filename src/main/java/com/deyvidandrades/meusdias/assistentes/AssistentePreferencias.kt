@@ -5,19 +5,126 @@ import androidx.preference.PreferenceManager
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
+enum class Chaves(val value: String) {
+    PRIMEIRO("primeiro"),
+    RECORDE("recorde"),
+    FRASE("frase"),
+    HORARIO("horario"),
+    DIAS("dias")
+}
+
 class AssistentePreferencias {
     companion object {
-        enum class Chaves(val value: String) {
-            PRIMEIRO("primeiro"),
-            RECORDE("recorde"),
-            FRASE("frase"),
-            HORARIO("horario")
+
+        private fun carregarPreferencia(
+            context: Context,
+            key: Chaves,
+            defaultValue: String
+        ): String {
+            return context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
+                .getString(key.value, defaultValue)!!
         }
 
-        fun isRecorde(context: Context): Boolean {
-            val numRecorde = carregarPreferencia(context, Chaves.RECORDE)
+        private fun salvarPreferencia(
+            context: Context,
+            key: Chaves,
+            value: String,
+            defaultValue: String
+        ) {
+            with(context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE).edit()) {
+                if (value != "") putString(key.value, value) else putString(key.value, defaultValue)
+                apply()
+            }
+        }
 
-            return carregarDias(context) > numRecorde!!.toInt()
+        fun getPreferencias(context: Context): HashMap<String, String> {
+            val map = HashMap<String, String>()
+
+            map[Chaves.PRIMEIRO.value] = carregarPreferencia(
+                context,
+                Chaves.PRIMEIRO,
+                Calendar.getInstance().timeInMillis.toString()
+            )
+
+            map[Chaves.RECORDE.value] = carregarPreferencia(
+                context,
+                Chaves.RECORDE,
+                "0"
+            )
+
+            map[Chaves.FRASE.value] = carregarPreferencia(
+                context,
+                Chaves.FRASE,
+                "sem..."
+            )
+
+            map[Chaves.HORARIO.value] = carregarPreferencia(
+                context,
+                Chaves.HORARIO,
+                "19"
+            )
+
+            val primeiroDia = map[Chaves.PRIMEIRO.value].toString().toLong()
+            val diferenca = Calendar.getInstance().timeInMillis - primeiroDia
+            map[Chaves.DIAS.value] = TimeUnit.MILLISECONDS.toDays(diferenca).toString()
+
+            return map
+        }
+
+        fun setPreferencias(context: Context, key: Chaves, value: Any) {
+
+            when (key) {
+                Chaves.PRIMEIRO -> {
+                    salvarPreferencia(
+                        context,
+                        Chaves.PRIMEIRO,
+                        value.toString(),
+                        Calendar.getInstance().timeInMillis.toString()
+                    )
+                }
+
+                Chaves.RECORDE -> {
+                    salvarPreferencia(
+                        context,
+                        Chaves.RECORDE,
+                        value.toString(),
+                        "0"
+                    )
+                }
+
+                Chaves.FRASE -> {
+                    salvarPreferencia(
+                        context,
+                        Chaves.FRASE,
+                        value.toString(),
+                        "sem..."
+                    )
+
+                }
+
+                Chaves.HORARIO -> {
+                    salvarPreferencia(
+                        context,
+                        Chaves.HORARIO,
+                        value.toString(),
+                        "19"
+                    )
+                }
+
+                else -> {}
+            }
+        }
+
+        fun setReview(context: Context) {
+            with(context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE).edit()) {
+                putBoolean("appReview", true)
+                apply()
+            }
+        }
+
+        fun getReview(context: Context): Boolean {
+            return context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
+                .getBoolean("appReview", false)
         }
 
         fun notificaDiaria(context: Context): Boolean {
@@ -30,23 +137,5 @@ class AssistentePreferencias {
                 .getBoolean("notificacao_recorde", true)
         }
 
-        fun carregarDias(context: Context): Int {
-            val primeiroDia = carregarPreferencia(context, Chaves.PRIMEIRO)!!.toLong()
-            val diferenca = Calendar.getInstance().timeInMillis - primeiroDia
-            return TimeUnit.MILLISECONDS.toDays(diferenca).toInt()
-        }
-
-        fun carregarPreferencia(context: Context, key: Chaves): String? {
-            return context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
-                .getString(key.value, "0")
-        }
-
-        fun salvarPreferencia(context: Context, key: Chaves, value: String) {
-            with(context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE).edit()) {
-                if (value != "") putString(key.value, value) else putString(key.value, "0")
-                apply()
-            }
-            println("DWS.D - ${carregarPreferencia(context, Chaves.RECORDE)}")
-        }
     }
 }

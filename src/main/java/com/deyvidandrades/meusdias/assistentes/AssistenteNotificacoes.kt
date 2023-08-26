@@ -54,8 +54,6 @@ class AssistenteNotificacoes {
                     PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                 )
 
-                println("DWS.D")
-
                 val sharedPref = context.getSharedPreferences("meus_dias", Context.MODE_PRIVATE)
                 val frase = sharedPref.getString("frase", "")
                 val primeiro = sharedPref.getString(

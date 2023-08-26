@@ -10,7 +10,7 @@ import androidx.preference.SwitchPreference
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
-import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias.Companion.Chaves
+import com.deyvidandrades.meusdias.assistentes.Chaves
 import java.util.Calendar
 
 class FragmentoPreferencias : PreferenceFragmentCompat() {
@@ -30,13 +30,15 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
 
         val seekBarHorario: SeekBarPreference? = findPreference("horario")
 
+
+        val dados = AssistentePreferencias.getPreferencias(requireContext())
+
         seekBarHorario?.apply {
-            value = AssistentePreferencias.carregarPreferencia(context, Chaves.HORARIO)!!.toInt()
+            value = dados[Chaves.HORARIO.value]!!.toInt()
         }
 
         val info = requireContext().packageManager.getPackageInfo(
-            requireContext().packageName,
-            PackageManager.GET_ACTIVITIES
+            requireContext().packageName, PackageManager.GET_ACTIVITIES
         )
 
         versao?.apply {
@@ -44,20 +46,14 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         }
 
         debugRecorde?.setDefaultValue(
-            AssistentePreferencias.carregarPreferencia(
-                requireContext(),
-                Chaves.RECORDE
-            )
+            dados[Chaves.RECORDE.value]!!.toInt()
         )
         debugPrimeiro?.setDefaultValue(
-            AssistentePreferencias.carregarPreferencia(
-                requireContext(),
-                Chaves.PRIMEIRO
-            )
+            dados[Chaves.PRIMEIRO.value]!!.toLong()
         )
 
         debugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
-            AssistentePreferencias.salvarPreferencia(
+            AssistentePreferencias.setPreferencias(
                 requireContext(),
                 Chaves.RECORDE,
                 newValue.toString()
@@ -65,7 +61,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
         debugPrimeiro!!.setOnPreferenceChangeListener { _, newValue ->
-            AssistentePreferencias.salvarPreferencia(
+            AssistentePreferencias.setPreferencias(
                 requireContext(),
                 Chaves.PRIMEIRO,
                 newValue.toString()
@@ -74,16 +70,14 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         }
 
         preferenciaReset!!.setOnPreferenceClickListener {
-            AssistentePreferencias.salvarPreferencia(
+            AssistentePreferencias.setPreferencias(
                 requireContext(),
                 Chaves.PRIMEIRO,
                 Calendar.getInstance().timeInMillis.toString()
             )
 
-            AssistentePreferencias.salvarPreferencia(
-                requireContext(),
-                Chaves.RECORDE,
-                "0"
+            AssistentePreferencias.setPreferencias(
+                requireContext(), Chaves.RECORDE, "0",
             )
 
             true
@@ -102,10 +96,8 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             AssistenteAlarmManager.cancelarAlarme(requireContext())
             AssistenteAlarmManager.criarAlarme(requireContext())
 
-            AssistentePreferencias.salvarPreferencia(
-                requireContext(),
-                Chaves.HORARIO,
-                newValue.toString()
+            AssistentePreferencias.setPreferencias(
+                requireContext(), Chaves.HORARIO, newValue.toString()
             )
 
             true

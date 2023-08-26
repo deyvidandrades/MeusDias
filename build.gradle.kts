@@ -11,8 +11,8 @@ android {
         applicationId = "com.deyvidandrades.meusdias"
         minSdk = 28
         targetSdk = 33
-        versionCode = 8
-        versionName = "1.0.8"
+        versionCode = 9
+        versionName = "1.0.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -43,6 +43,9 @@ dependencies {
 
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.preference:preference-ktx:1.2.1")
+
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
 
     implementation("nl.dionsegijn:konfetti-xml:2.0.3")
 

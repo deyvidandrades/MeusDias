@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
+import com.deyvidandrades.meusdias.assistentes.Chaves
 import java.util.Calendar
 
 class ActionReceiver : BroadcastReceiver() {
@@ -16,9 +17,9 @@ class ActionReceiver : BroadcastReceiver() {
         notificationManager.cancel(2)
 
         if (!bundle!!.getBoolean("cumpriu", false)) {
-            AssistentePreferencias.salvarPreferencia(
+            AssistentePreferencias.setPreferencias(
                 context,
-                AssistentePreferencias.Companion.Chaves.PRIMEIRO,
+                Chaves.PRIMEIRO,
                 Calendar.getInstance().timeInMillis.toString()
             )
         }
