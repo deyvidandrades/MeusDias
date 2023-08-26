@@ -42,15 +42,15 @@ class MainActivity : AppCompatActivity() {
 
         AssistenteNotificacoes.criarCanalDeNotificacoes(this)
 
+        //FUNCOES DE DEBUG
+        //AssistentePreferencias.setPreferencias(this,Chaves.RECORDE, 72)
+        //AssistentePreferencias.setPreferencias(this,Chaves.PRIMEIRO, 1687737763000)
         configurarListeners()
 
         updateUI()
 
         verificarRecorde()
 
-        //verificarReview()
-        //salvarPreferencia("recorde", "72")
-        //salvarPreferencia("primeiro","1687737763000")
         AssistenteAlarmManager.criarAlarme(this)
     }
 
