@@ -66,6 +66,7 @@ class AssistenteNotificacoes {
 
                 val builder = Notification.Builder(context, channelId)
                     .setOngoing(true)
+                    .setShowWhen(true)
                     .setColorized(true)
                     .setAutoCancel(true)
                     .setColor(context.getColor(R.color.accent))
@@ -104,6 +105,7 @@ class AssistenteNotificacoes {
                 val builder = Notification.Builder(context, channelId)
                     .setAutoCancel(true)
                     .setColorized(true)
+                    .setShowWhen(true)
                     .setColor(context.getColor(R.color.accent))
                     .setCategory(Notification.CATEGORY_REMINDER)
                     .setContentTitle("Novo recorde!")

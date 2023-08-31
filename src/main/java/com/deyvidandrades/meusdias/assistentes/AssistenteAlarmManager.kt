@@ -37,7 +37,7 @@ class AssistenteAlarmManager {
                     set(Calendar.HOUR_OF_DAY, sharedPreferences.getInt("horario", 19))
                 }
 
-                alarmManager.setInexactRepeating(
+                alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     calendar.timeInMillis + 1000,
                     AlarmManager.INTERVAL_DAY,
