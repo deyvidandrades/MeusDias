@@ -21,6 +21,7 @@ import com.deyvidandrades.meusdias.assistentes.AssistenteNotificacoes
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
 import com.deyvidandrades.meusdias.assistentes.AssistenteViewToBitmap
 import com.deyvidandrades.meusdias.assistentes.Chaves
+import com.deyvidandrades.meusdias.dialogos.DialogoShare
 import com.google.android.play.core.review.ReviewManagerFactory
 import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
@@ -103,15 +104,8 @@ class MainActivity : AppCompatActivity() {
         btnShare.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
 
-            val relativePrint: RelativeLayout = findViewById(R.id.relativePrint)
-            val bitmapURI = AssistenteViewToBitmap.getViewToBitmapURI(this, relativePrint)
-
-            val shareIntent: Intent = Intent().apply {
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_STREAM, Uri.parse(bitmapURI.toString()))
-                type = "image/jpeg"
-            }
-            startActivity(Intent.createChooser(shareIntent, null))
+            val customBottomSheet = DialogoShare()
+            customBottomSheet.show(supportFragmentManager, "CustomBottomSheet")
         }
     }
 

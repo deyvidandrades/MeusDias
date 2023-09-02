@@ -33,6 +33,7 @@
             android:layout_toStartOf="@+id/btn_settings"
             android:layout_toEndOf="@+id/seta"
             android:fontFamily="sans-serif-medium"
+            android:visibility="gone"
             android:text="@string/app_name"
             android:textColor="@color/textLight"
             android:textSize="32sp" />

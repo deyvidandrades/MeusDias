@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/rounded_r24_top"
@@ -7,38 +8,45 @@
     android:orientation="vertical"
     android:padding="24dp">
 
-
     <View
         android:layout_width="32dp"
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_r16"
         android:backgroundTint="@color/textLight" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerShare"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <TextView
+        android:id="@+id/info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="@string/compartilhar"
-        android:textColor="@color/accent"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="16dp"
+        android:drawablePadding="5dp"
+        android:text="@string/escolha_um_cart_o_e_clique_nele_para_confirmar"
+        android:textColor="@color/textLight"
+        android:textSize="12sp"
+        app:drawableStartCompat="@drawable/outline_info_24"
+        app:drawableTint="@color/textLight" />
 
     <LinearLayout
+        android:id="@+id/btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_r16"
         android:backgroundTint="@color/accent"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="16dp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/compartilhar_nos_stories"
+            android:text="@string/compartilhar"
             android:textColor="@color/background"
             android:textSize="16sp"
             android:textStyle="bold" />
