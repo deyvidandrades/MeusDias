@@ -42,7 +42,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         )
 
         versao?.apply {
-            summary = "Meus Dias v${info.versionName} (Beta)"
+            summary = "Meus Dias v${info.versionName}"
         }
 
         debugRecorde?.setDefaultValue(
