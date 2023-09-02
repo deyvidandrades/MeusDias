@@ -3,7 +3,6 @@ package com.deyvidandrades.meusdias.activities
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,7 +18,6 @@ import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.AssistenteNotificacoes
 import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
-import com.deyvidandrades.meusdias.assistentes.AssistenteViewToBitmap
 import com.deyvidandrades.meusdias.assistentes.Chaves
 import com.deyvidandrades.meusdias.dialogos.DialogoShare
 import com.google.android.play.core.review.ReviewManagerFactory

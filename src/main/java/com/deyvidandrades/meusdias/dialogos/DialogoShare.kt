@@ -7,14 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.adaptadores.AdaptadorShare
-import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteViewToBitmap
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
