@@ -143,6 +143,14 @@
                 android:textColor="@color/accent"
                 android:textSize="44sp"
                 android:textStyle="bold" />
+            <TextView
+                android:id="@+id/infoRecorde"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:text="Alcançado em 20/10/2023."
+                android:textColor="@color/textLight"
+                android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 

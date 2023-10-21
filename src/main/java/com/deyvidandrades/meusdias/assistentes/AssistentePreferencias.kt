@@ -8,6 +8,7 @@ import java.util.concurrent.TimeUnit
 enum class Chaves(val value: String) {
     PRIMEIRO("primeiro"),
     RECORDE("recorde"),
+    RECORDE_TIME("recorde_time"),
     FRASE("frase"),
     HORARIO("horario"),
     DIAS("dias")
@@ -52,6 +53,12 @@ class AssistentePreferencias {
                 "0"
             )
 
+            map[Chaves.RECORDE_TIME.value] = carregarPreferencia(
+                context,
+                Chaves.RECORDE_TIME,
+                Calendar.getInstance().timeInMillis.toString()
+            )
+
             map[Chaves.FRASE.value] = carregarPreferencia(
                 context,
                 Chaves.FRASE,
@@ -89,6 +96,15 @@ class AssistentePreferencias {
                         Chaves.RECORDE,
                         value.toString(),
                         "0"
+                    )
+                }
+
+                Chaves.RECORDE_TIME -> {
+                    salvarPreferencia(
+                        context,
+                        Chaves.RECORDE_TIME,
+                        value.toString(),
+                        Calendar.getInstance().timeInMillis.toString()
                     )
                 }
 

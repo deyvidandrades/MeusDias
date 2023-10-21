@@ -1,5 +1,6 @@
 package com.deyvidandrades.meusdias.activities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -25,6 +26,9 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.xml.KonfettiView
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
@@ -107,9 +111,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateUI() {
-        val tvRecorde: TextView = findViewById(R.id.recorde)
         val tvDias: TextView = findViewById(R.id.dias)
+        val tvRecorde: TextView = findViewById(R.id.recorde)
+        val tvRecordeInfo: TextView = findViewById(R.id.infoRecorde)
 
         val dados = AssistentePreferencias.getPreferencias(this)
 
@@ -125,6 +131,18 @@ class MainActivity : AppCompatActivity() {
         //Atualizar Recorde
         val recorde = dados[Chaves.RECORDE.value].toString().toInt()
         tvRecorde.text = if (recorde < 2) "$recorde dia." else "$recorde dias."
+
+        //Atualizar data do recorde
+        val recordeInfo = dados[Chaves.RECORDE_TIME.value].toString().toLong()
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = recordeInfo
+
+        tvRecordeInfo.text = "Alcançado em ${
+            SimpleDateFormat(
+                "dd/MM/yyyy",
+                Locale.getDefault()
+            ).format(calendar.time)
+        }."
     }
 
     private fun verificarRecorde() {
@@ -148,6 +166,13 @@ class MainActivity : AppCompatActivity() {
                 this,
                 Chaves.RECORDE,
                 numDias.toString()
+            )
+
+            //Salvar tempo do novo recorde
+            AssistentePreferencias.setPreferencias(
+                this,
+                Chaves.RECORDE_TIME,
+                Calendar.getInstance().timeInMillis.toString()
             )
 
             jogarConfetti()
