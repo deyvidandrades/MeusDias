@@ -67,8 +67,8 @@ class AssistenteViewToBitmap {
                 contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
             try {
                 val outputStream = contentResolver.openOutputStream(imageUri!!)
-                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                outputStream?.close()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream!!)
+                outputStream.close()
                 return imageUri
             } catch (e: IOException) {
                 e.printStackTrace()

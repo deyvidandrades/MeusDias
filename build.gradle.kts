@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.deyvidandrades.meusdias"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.deyvidandrades.meusdias"
@@ -37,7 +37,7 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
+    implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.10.0")
 
