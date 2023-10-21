@@ -64,12 +64,12 @@ class AdaptadorShare(
         val dados = AssistentePreferencias.getPreferencias(context)
 
         holder.tvNumDias.text =
-            "${dados["dias"]} ${if (dados["dias"]!!.toInt() > 2) "dias" else "dia"}."
+            "${dados["dias"]} ${if (dados["dias"]!!.toInt() > 1) "dias" else "dia"}."
 
         holder.tvFrase.text = dados["frase"]
 
         holder.tvRecorde.text =
-            "${dados["recorde"]} ${if (dados["recorde"]!!.toInt() > 2) "dias" else "dia"}."
+            "${dados["recorde"]} ${if (dados["recorde"]!!.toInt() > 1) "dias" else "dia"}."
     }
 
     override fun getItemCount(): Int {
