@@ -73,7 +73,7 @@
     <PreferenceCategory
         android:key="categoria_informacoes"
         android:title="Sobre o aplicativo"
-        app:initialExpandedChildrenCount="2">
+        app:initialExpandedChildrenCount="3">
 
         <Preference
             android:icon="@drawable/ic_launcher_foreground"
@@ -85,5 +85,10 @@
             android:key="creditos"
             android:summary="Desenvolvido por @deyvidandrades"
             android:title="Desenvolvedor" />
+
+        <Preference
+            android:key="privacidade"
+            android:summary=""
+            android:title="Política de Privacidade" />
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

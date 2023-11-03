@@ -1,6 +1,8 @@
 package com.deyvidandrades.meusdias.fragmentos
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -27,9 +29,9 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val debugRecorde: EditTextPreference? = findPreference("debug_recorde")
 
         val versao: Preference? = findPreference("versao")
+        val preferenciaPrivacidade: Preference? = findPreference("privacidade")
 
         val seekBarHorario: SeekBarPreference? = findPreference("horario")
-
 
         val dados = AssistentePreferencias.getPreferencias(requireContext())
 
@@ -100,6 +102,12 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
                 requireContext(), Chaves.HORARIO, newValue.toString()
             )
 
+            true
+        }
+
+        preferenciaPrivacidade?.setOnPreferenceClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uld_politica)))
+            startActivity(browserIntent)
             true
         }
     }
