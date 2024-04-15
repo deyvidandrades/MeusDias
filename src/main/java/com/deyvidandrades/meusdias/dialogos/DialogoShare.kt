@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -14,15 +13,11 @@ import androidx.recyclerview.widget.SnapHelper
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.adaptadores.AdaptadorShare
 import com.deyvidandrades.meusdias.assistentes.AssistenteViewToBitmap
+import com.deyvidandrades.meusdias.interfaces.OnItemClickListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
-interface OnItemClickListener {
-    fun onItemClick(view: View, position: Int)
-}
 
 class DialogoShare : BottomSheetDialogFragment(), OnItemClickListener {
 
-    private lateinit var btnShare: LinearLayout
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -30,8 +25,6 @@ class DialogoShare : BottomSheetDialogFragment(), OnItemClickListener {
     ): View? {
         val arrayCards: ArrayList<HashMap<String, String>> = ArrayList()
         val dialogoView = inflater.inflate(R.layout.dialogo_share, container, false)
-
-        btnShare = dialogoView.findViewById(R.id.btn_share)
 
         arrayCards.add(hashMapOf("bg" to "#211C2E", "accent" to "#9C99F7", "text" to "#E2E1E8"))
         arrayCards.add(hashMapOf("bg" to "#E2E1E8", "accent" to "#9C99F7", "text" to "#211C2E"))
@@ -55,7 +48,7 @@ class DialogoShare : BottomSheetDialogFragment(), OnItemClickListener {
         return dialogoView
     }
 
-    override fun onItemClick(view: View, position: Int) {
+    override fun onItemClick(view: View) {
         val bitmapURI =
             AssistenteViewToBitmap.getViewToBitmapURI(requireContext(), view)
 

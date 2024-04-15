@@ -13,8 +13,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
-import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
-import com.deyvidandrades.meusdias.dialogos.OnItemClickListener
+import com.deyvidandrades.meusdias.assistentes.Persistencia
+import com.deyvidandrades.meusdias.interfaces.OnItemClickListener
 
 class AdaptadorShare(
     context: Context,
@@ -39,7 +39,7 @@ class AdaptadorShare(
 
         holder.itemView.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
-            listener.onItemClick(v, position)
+            listener.onItemClick(v)
 
             holder.viewBackgroundMask.visibility = View.VISIBLE
         }
@@ -61,15 +61,15 @@ class AdaptadorShare(
         holder.tvFraseRecorde.setTextColor(corText)
         holder.tvRecorde.setTextColor(corAccent)
 
-        val dados = AssistentePreferencias.getPreferencias(context)
+        val objetivoAtual = Persistencia.getObjetivoAtual()
 
         holder.tvNumDias.text =
-            "${dados["dias"]} ${if (dados["dias"]!!.toInt() > 1) "dias" else "dia"}."
+            "${objetivoAtual.diasCumpridos} ${if (objetivoAtual.diasCumpridos > 1) "dias" else "dia"}."
 
-        holder.tvFrase.text = dados["frase"]
+        holder.tvFrase.text = objetivoAtual.titulo
 
         holder.tvRecorde.text =
-            "${dados["recorde"]} ${if (dados["recorde"]!!.toInt() > 1) "dias" else "dia"}."
+            "${objetivoAtual.numDiasSeguidos} ${if (objetivoAtual.numDiasSeguidos > 1) "dias" else "dia"}."
     }
 
     override fun getItemCount(): Int {
