@@ -2,10 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/relativePrint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     tools:context=".activities.MainActivity">
 
     <RelativeLayout
@@ -23,32 +21,19 @@
             android:layout_height="48dp"
             android:contentDescription="@string/menu_de_op_es"
             android:src="@drawable/round_trending_down_24"
-            app:tint="@color/accent" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginHorizontal="8dp"
-            android:layout_toStartOf="@+id/btn_settings"
-            android:layout_toEndOf="@+id/seta"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/app_name"
-            android:textColor="@color/textLight"
-            android:textSize="32sp"
-            android:visibility="gone" />
+            app:tint="?android:colorAccent" />
 
         <ImageView
-            android:id="@+id/btn_settings"
+            android:id="@+id/btn_opcoes"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
             android:background="@drawable/rounded_r16"
-            android:backgroundTint="@color/backgroundLight"
+            android:backgroundTint="?android:colorSecondary"
             android:contentDescription="@string/a_o_de_abrir_configura_es"
             android:padding="12dp"
             android:src="@drawable/round_more_vert_24"
-            app:tint="@color/accent" />
+            app:tint="?android:colorAccent" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -56,7 +41,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/btn_share"
         android:layout_below="@+id/menu_holder"
-        android:background="@color/background"
         android:padding="24dp">
 
         <LinearLayout
@@ -70,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/estou_a"
-                android:textColor="@color/textLight"
                 android:textSize="64sp"
                 android:textStyle="bold" />
 
@@ -80,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/_0_dias"
-                android:textColor="@color/accent"
+                android:textColor="?android:colorAccent"
                 android:textSize="64sp"
                 android:textStyle="bold" />
 
@@ -95,8 +78,7 @@
                 android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:inputType="text|textMultiLine"
-                android:textColor="@color/textLight"
-                android:textColorHint="@color/textLight"
+                android:textColorHint="?android:textColor"
                 android:textSize="64sp"
                 android:textStyle="bold"
                 tools:ignore="LabelFor" />
@@ -107,10 +89,9 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
                 android:text="@string/clique_longo_para_editar"
-                android:textColor="@color/textLight"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/outline_info_24"
-                app:drawableTint="@color/textLight" />
+                app:drawableTint="?android:textColor" />
         </LinearLayout>
 
         <nl.dionsegijn.konfetti.xml.KonfettiView
@@ -130,7 +111,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/meu_recorde_de"
-                android:textColor="@color/textLight"
                 android:textSize="34sp"
                 android:textStyle="bold" />
 
@@ -140,21 +120,31 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/_0_dias"
-                android:textColor="@color/accent"
+                android:textColor="?android:colorAccent"
                 android:textSize="44sp"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/infoRecorde"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
-                android:text="Alcançado em 20/10/2023."
-                android:textColor="@color/textLight"
                 android:textSize="12sp" />
         </LinearLayout>
     </RelativeLayout>
 
-    <RelativeLayout
+    <Button
+        android:id="@+id/btn_historico"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="24dp"
+        app:icon="@drawable/round_keyboard_arrow_up_24" />
+
+    <ImageView
         android:id="@+id/btn_share"
         android:layout_width="64dp"
         android:layout_height="64dp"
@@ -163,16 +153,9 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_r24"
-        android:backgroundTint="@color/accent"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="2dp"
-            android:contentDescription="@string/a_o_de_compartilhar"
-            android:src="@drawable/round_share_24"
-            app:tint="@color/textDark" />
-    </RelativeLayout>
+        android:backgroundTint="?android:colorAccent"
+        android:contentDescription="@string/a_o_de_compartilhar"
+        android:padding="18dp"
+        android:src="@drawable/round_share_24"
+        app:tint="?android:colorBackground" />
 </RelativeLayout>
