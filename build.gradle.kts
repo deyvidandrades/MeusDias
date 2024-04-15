@@ -9,10 +9,10 @@ android {
 
     defaultConfig {
         applicationId = "com.deyvidandrades.meusdias"
-        minSdk = 28
-        targetSdk = 33
-        versionCode = 13
-        versionName = "1.2.1"
+        minSdk = 29
+        targetSdk = 34
+        versionCode = 14
+        versionName = "1.2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,27 +27,30 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility =  JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildToolsVersion = "34.0.0"
 }
 
 dependencies {
 
+    //Core libs
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.10.0")
+    implementation("com.google.android.material:material:1.11.0")
 
+    //Android widgets
     implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.preference:preference-ktx:1.2.1")
-
     implementation("com.google.android.play:review:2.0.1")
     implementation("com.google.android.play:review-ktx:2.0.1")
 
-    implementation("nl.dionsegijn:konfetti-xml:2.0.3")
+    //Outras bibliotecas
+    implementation("nl.dionsegijn:konfetti-xml:2.0.4")
 
     //Test libraries
     testImplementation("junit:junit:4.13.2")
