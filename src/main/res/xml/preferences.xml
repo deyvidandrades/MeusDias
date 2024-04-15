@@ -54,11 +54,18 @@
             android:summary="Apagar todos os dados de contagem e seus recordes."
             android:title="Resetar" />
 
-        <EditTextPreference
+        <Preference
             android:dependency="habilitar_experimentais"
             android:dialogTitle="Timestamp"
             android:key="debug_primeiro"
             android:title="Alterar inicio do progresso"
+            app:useSimpleSummaryProvider="true" />
+
+        <EditTextPreference
+            android:dependency="habilitar_experimentais"
+            android:dialogTitle="Numero de dias"
+            android:key="debug_num_dias"
+            android:title="Alterar o numero de dias"
             app:useSimpleSummaryProvider="true" />
 
         <EditTextPreference
