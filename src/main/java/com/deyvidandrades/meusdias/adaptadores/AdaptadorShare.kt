@@ -52,7 +52,7 @@ class AdaptadorShare(
         holder.viewBackgroundMask.setBackgroundColor(corBG)
         holder.relativeBackground.backgroundTintList = ColorStateList.valueOf(corBG)
 
-        holder.imgSseta.setColorFilter(corAccent)
+        holder.imgSeta.setColorFilter(corAccent)
 
         holder.tvNumDias.setTextColor(corAccent)
         holder.tvEstou.setTextColor(corText)
@@ -81,7 +81,7 @@ class AdaptadorShare(
         var viewBackgroundMask: View
         var relativeBackgroundAccent: RelativeLayout
         var relativeBackground: RelativeLayout
-        var imgSseta: ImageView
+        var imgSeta: ImageView
         var tvEstou: TextView
         var tvNumDias: TextView
         var tvFrase: TextView
@@ -92,7 +92,7 @@ class AdaptadorShare(
             viewBackgroundMask = itemView.findViewById(R.id.view_background_mask)
             relativeBackgroundAccent = itemView.findViewById(R.id.relative_background_accent)
             relativeBackground = itemView.findViewById(R.id.relative_background)
-            imgSseta = itemView.findViewById(R.id.seta)
+            imgSeta = itemView.findViewById(R.id.seta)
             tvEstou = itemView.findViewById(R.id.tvEstou)
             tvNumDias = itemView.findViewById(R.id.tvNumDias)
             tvFrase = itemView.findViewById(R.id.tvFrase)
