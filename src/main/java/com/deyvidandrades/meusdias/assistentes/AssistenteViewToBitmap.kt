@@ -5,7 +5,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
@@ -55,12 +54,7 @@ class AssistenteViewToBitmap {
             values.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
 
             val contentResolver = context.contentResolver
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                values.put(
-                    MediaStore.Images.Media.RELATIVE_PATH,
-                    Environment.DIRECTORY_PICTURES + "/MeusDias"
-                )
-            }
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/MeusDias")
 
             // Save the image
             val imageUri =
