@@ -1,7 +1,10 @@
 package com.deyvidandrades.meusdias.activities
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,7 +13,9 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
@@ -68,9 +73,7 @@ class MainActivity : AppCompatActivity() {
         updateUI()
         configurarTexto()
         verificarRecorde()
-
-        NotificacoesUtil.criarCanalDeNotificacoes(this)
-        AssistenteAlarmManager.criarAlarme(this)
+        configurarPermissoes()
     }
 
     @SuppressLint("SetTextI18n")
@@ -93,6 +96,38 @@ class MainActivity : AppCompatActivity() {
                 Locale.getDefault()
             ).format(Date(objetivoAtual.dataRecorde))
         }"
+    }
+
+    private fun configurarPermissoes() {
+        val permissionRequestNotificacao =
+            registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+                when {
+                    permissions.getOrDefault(Manifest.permission.POST_NOTIFICATIONS, false) -> {
+                        configurarNotificacoes()
+                    }
+                }
+            }
+
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) -> {
+                configurarNotificacoes()
+            }
+
+            else -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionRequestNotificacao.launch(
+                        arrayOf(
+                            Manifest.permission.POST_NOTIFICATIONS
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun configurarNotificacoes() {
+        NotificacoesUtil.criarCanalDeNotificacoes(this)
+        AssistenteAlarmManager.criarAlarme(this)
     }
 
     private fun configurarTexto() {
