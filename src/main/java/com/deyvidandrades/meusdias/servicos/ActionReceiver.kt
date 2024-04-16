@@ -4,10 +4,10 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.deyvidandrades.meusdias.assistentes.AssistenteNotificacoes
-import com.deyvidandrades.meusdias.assistentes.AssistentePreferencias
-import com.deyvidandrades.meusdias.assistentes.Chaves
-import java.util.Calendar
+import android.util.Log
+import com.deyvidandrades.meusdias.R
+import com.deyvidandrades.meusdias.assistentes.NotificacoesUtil
+import com.deyvidandrades.meusdias.assistentes.Persistencia
 
 class ActionReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -15,46 +15,29 @@ class ActionReceiver : BroadcastReceiver() {
 
         val notificationManager = context
             .getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(2)
+        notificationManager.cancel(NotificacoesUtil.Tipo.DIARIA.ordinal)
 
-        if (!bundle!!.getBoolean("cumpriu", false)) {
-            AssistentePreferencias.setPreferencias(
-                context,
-                Chaves.PRIMEIRO,
-                Calendar.getInstance().timeInMillis.toString()
-            )
-            verificarRecorde(context)
-        }
+        Persistencia.getInstance(context)
+
+        if (bundle!!.getBoolean("cumpriu", false))
+            Persistencia.cumprirObjetivo()
+        else
+            Persistencia.resetObjetivo()
+
+        verificarRecorde(context)
     }
 
     private fun verificarRecorde(context: Context) {
-        //Carregar preferências
-        val dados = AssistentePreferencias.getPreferencias(context)
+        val objetivoAtual = Persistencia.getObjetivoAtual()
+        val numDias = Persistencia.getNumDias()
 
-        val frase = dados[Chaves.FRASE.value].toString()
-        val numDias = dados[Chaves.DIAS.value]!!.toInt()
-        val numRecorde = dados[Chaves.RECORDE.value]!!.toInt()
-
-        if (numDias > numRecorde) {
-
-            //Enviar Notificação
-            AssistenteNotificacoes.notificacaoRecorde(
+        if (Persistencia.checarRecorde()) {
+            NotificacoesUtil.enviarNotificacao(
                 context,
-                "Você já está a $numDias dias $frase"
-            )
-
-            //Salvar novo recorde
-            AssistentePreferencias.setPreferencias(
-                context,
-                Chaves.RECORDE,
-                numDias.toString()
-            )
-
-            //Salvar tempo do novo recorde
-            AssistentePreferencias.setPreferencias(
-                context,
-                Chaves.RECORDE_TIME,
-                Calendar.getInstance().timeInMillis.toString()
+                context.getString(R.string.voce_tem_um_novo_recorde),
+                context.getString(R.string.voce_ja_esta_a_dias_sem, numDias.toString(), objetivoAtual.titulo),
+                NotificacoesUtil.Tipo.RECORDE,
+                false
             )
         }
     }
