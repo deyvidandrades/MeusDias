@@ -23,4 +23,7 @@
     <string name="voce_cumpriu_seu_objetivo_hoje">Você cumpriu seu objetivo hoje?</string>
     <string name="estou_a_dias_sem">Estou a %1$s dias sem %2$s</string>
     <string name="dados_resetados">Dados resetados</string>
+    <string name="esta_uma_visualiza_o_de_seus_ultimos_objetivos">Esta é uma visualização de seus últimos objetivos. A cada falha, um novo registro é adicionado no histórico. Você pode limpar os registros nas configurações do app.</string>
+    <string name="come_ou_em">Começou em</string>
+    <string name="alcan_ou_em">Alcançou em</string>
 </resources>

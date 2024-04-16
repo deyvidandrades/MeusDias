@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/rounded_r24_top"
     android:backgroundTint="?backgroundColor"
     android:orientation="vertical"
@@ -15,25 +15,23 @@
         android:background="@drawable/rounded_r16"
         android:backgroundTint="?android:colorAccent" />
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerShare"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </androidx.core.widget.NestedScrollView>
-
     <TextView
         android:id="@+id/info"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_r16_outline"
         android:drawablePadding="5dp"
-        android:text="@string/escolha_um_cart_o_e_clique_nele_para_confirmar"
+        android:padding="12dp"
+        android:text="@string/esta_uma_visualiza_o_de_seus_ultimos_objetivos"
+        android:textAlignment="center"
         android:textSize="12sp"
-        app:drawableStartCompat="@drawable/outline_info_24"
-        app:drawableTint="?android:textColor" />
+        app:drawableTint="?android:colorAccent"
+        app:drawableTopCompat="@drawable/outline_info_24" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_objetivo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

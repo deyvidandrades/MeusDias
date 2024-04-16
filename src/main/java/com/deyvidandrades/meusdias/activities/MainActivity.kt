@@ -17,6 +17,7 @@ import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.NotificacoesUtil
 import com.deyvidandrades.meusdias.assistentes.Persistencia
+import com.deyvidandrades.meusdias.dialogos.DialogoHistorico
 import com.deyvidandrades.meusdias.dialogos.DialogoShare
 import com.google.android.play.core.review.ReviewManagerFactory
 import nl.dionsegijn.konfetti.core.Party
@@ -60,7 +61,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnHistorico.setOnClickListener {
-
+            val customBottomSheet = DialogoHistorico()
+            customBottomSheet.show(supportFragmentManager, DialogoHistorico::class.simpleName)
         }
 
         updateUI()
