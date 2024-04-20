@@ -2,7 +2,6 @@ package com.deyvidandrades.meusdias.assistentes
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import com.deyvidandrades.meusdias.objetos.Objetivo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -37,14 +36,16 @@ object Persistencia {
             notificacoesDiarias = preferences!!.getBoolean(Paths.NOTIFICACOES_DIARIAS.name.lowercase(), true)
             notificacoesRecorde = preferences!!.getBoolean(Paths.NOTIFICACOES_RECORDE.name.lowercase(), true)
 
-            val listaRawObjetivos = preferences!!.getString(Paths.OBJETIVOS.name.lowercase(), "")!!
-            val typeTokenObjetivos = object : TypeToken<ArrayList<Objetivo>>() {}.type
+            val listaRawObjetivos = preferences!!.getString(Paths.OBJETIVOS.name.lowercase(), "")
 
-            try {
+            if (listaRawObjetivos != "") {
+                val typeTokenObjetivos = object : TypeToken<ArrayList<Objetivo>>() {}.type
+
                 arrayObjetivos.clear()
                 arrayObjetivos.addAll(Gson().fromJson(listaRawObjetivos, typeTokenObjetivos))
-            } catch (e: NullPointerException) {
-                arrayObjetivos = ArrayList()
+            } else {
+                arrayObjetivos.add(Objetivo("sem um objetivo"))
+                salvarDados()
             }
         }
     }
@@ -130,16 +131,7 @@ object Persistencia {
 
     /*FLUXO OBJETIVOS*/
 
-    fun getObjetivoAtual(): Objetivo {
-        if (arrayObjetivos.isEmpty()) {
-            arrayObjetivos.add(Objetivo("sem um objetivo"))
-            salvarDados()
-        }
-
-        Log.d("DWS", arrayObjetivos.toString())
-
-        return arrayObjetivos.last()
-    }
+    fun getObjetivoAtual() = arrayObjetivos.last()
 
     fun getObjetivos() = arrayObjetivos
 
