@@ -114,9 +114,14 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
         debugRecorde.setOnPreferenceChangeListener { _, newValue ->
-            Persistencia.debugSetNumDiasRecorde(newValue.toString().toInt())
-            Toast.makeText(requireContext(), "Recorde alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT)
-                .show()
+            try {
+                Persistencia.debugSetNumDiasRecorde(newValue.toString().toInt())
+                Toast.makeText(
+                    requireContext(), "Recorde alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
+                ).show()
+            } catch (_: Exception) {
+
+            }
             true
         }
 
@@ -124,10 +129,14 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             it.inputType = InputType.TYPE_CLASS_NUMBER
         }
         debugNumDias.setOnPreferenceChangeListener { _, newValue ->
-            Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
-            Toast.makeText(requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT)
-                .show()
+            try {
+                Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
+                Toast.makeText(
+                    requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
+                ).show()
+            } catch (_: Exception) {
 
+            }
             true
         }
 
