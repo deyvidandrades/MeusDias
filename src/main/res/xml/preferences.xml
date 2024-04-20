@@ -37,6 +37,16 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="categoria_dados"
+        android:title="Dados">
+        <Preference
+            android:icon="@drawable/round_delete_forever_24"
+            android:key="reset"
+            android:summary="Apagar todos os dados de contagem e seus recordes."
+            android:title="Remover dados" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="categoria_customizacao"
         android:title="Recursos Experimentais"
         app:initialExpandedChildrenCount="1">
@@ -47,12 +57,6 @@
             android:key="habilitar_experimentais"
             android:summary="Recursos que ainda estão em desenvolvimento e podem apresentar falhas"
             android:title="Habilitar recursos experimentais" />
-
-        <Preference
-            android:dependency="habilitar_experimentais"
-            android:key="reset"
-            android:summary="Apagar todos os dados de contagem e seus recordes."
-            android:title="Resetar" />
 
         <Preference
             android:dependency="habilitar_experimentais"
@@ -70,7 +74,7 @@
 
         <EditTextPreference
             android:dependency="habilitar_experimentais"
-            android:dialogTitle="Integer"
+            android:dialogTitle="Número de dias seguidos"
             android:key="debug_recorde"
             android:title="Alterar recorde"
             app:useSimpleSummaryProvider="true" />

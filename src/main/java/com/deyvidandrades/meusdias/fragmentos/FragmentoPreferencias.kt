@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.InputType
 import android.widget.Toast
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
@@ -13,6 +14,7 @@ import androidx.preference.SwitchPreference
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.Persistencia
+import com.deyvidandrades.meusdias.dialogos.DialogoRemoverDados
 import com.google.android.material.datepicker.MaterialDatePicker
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -84,8 +86,8 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         }
 
         preferenciaReset!!.setOnPreferenceClickListener {
-            Persistencia.limparDados()
-            Toast.makeText(requireContext(), getString(R.string.dados_resetados), Toast.LENGTH_SHORT).show()
+            val customBottomSheet = DialogoRemoverDados()
+            customBottomSheet.show(parentFragmentManager, DialogoRemoverDados::class.simpleName)
             true
         }
 
@@ -108,14 +110,20 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        debugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
+        debugRecorde!!.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        debugRecorde.setOnPreferenceChangeListener { _, newValue ->
             Persistencia.debugSetNumDiasRecorde(newValue.toString().toInt())
             Toast.makeText(requireContext(), "Recorde alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT)
                 .show()
             true
         }
 
-        debugNumDias!!.setOnPreferenceChangeListener { _, newValue ->
+        debugNumDias!!.setOnBindEditTextListener {
+            it.inputType = InputType.TYPE_CLASS_NUMBER
+        }
+        debugNumDias.setOnPreferenceChangeListener { _, newValue ->
             Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
             Toast.makeText(requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT)
                 .show()

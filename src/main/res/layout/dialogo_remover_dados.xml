@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/rounded_r24_top"
+    android:backgroundTint="?backgroundColor"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <View
+        android:layout_width="32dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_r16"
+        android:backgroundTint="?android:colorAccent" />
+
+    <TextView
+        android:id="@+id/info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/rounded_r16_outline"
+        android:drawablePadding="5dp"
+        android:padding="12dp"
+        android:text="@string/clicando_em_apagar_dados_todos_os_seus_dados_ser_o_resetados_incluindo_seu_hist_rico_e_seus_recordes_pessoais"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        app:drawableTint="?android:colorAccent"
+        app:drawableTopCompat="@drawable/outline_info_24" />
+
+    <Button
+        android:id="@+id/btn_deletar"
+        style="@style/Widget.Material3.Button.OutlinedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="24dp"
+        android:text="@string/apagar_dados"
+        app:strokeColor="?android:colorAccent" />
+
+    <Button
+        android:id="@+id/btn_cancelar"
+        style="@style/Widget.Material3.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12dp"
+        android:text="@string/cancelar" />
+</LinearLayout>
