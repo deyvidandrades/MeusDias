@@ -10,14 +10,14 @@
         android:id="@+id/view_background_mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:colorSecondary"
+        android:background="@color/surfaceColor"
         android:visibility="gone" />
 
     <RelativeLayout
         android:id="@+id/relative_background_accent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?android:colorAccent">
+        android:background="@color/accentColor">
 
         <RelativeLayout
             android:id="@+id/relative_background"
@@ -56,7 +56,7 @@
                         android:layout_alignParentEnd="true"
                         android:contentDescription="@string/menu_de_op_es"
                         android:src="@drawable/round_trending_down_24"
-                        app:tint="?android:colorAccent" />
+                        app:tint="@color/accentColor" />
                 </RelativeLayout>
 
                 <TextView
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/_0_dias"
-                    android:textColor="?android:colorAccent"
+                    android:textColor="@color/accentColor"
                     android:textSize="32sp"
                     android:textStyle="bold" />
 
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/_0_dias"
-                    android:textColor="?android:colorAccent"
+                    android:textColor="@color/accentColor"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>

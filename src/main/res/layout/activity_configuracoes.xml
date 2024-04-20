@@ -21,11 +21,11 @@
             android:layout_height="48dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/rounded_r16"
-            android:backgroundTint="?android:colorSecondary"
+            android:backgroundTint="@color/surfaceColor"
             android:contentDescription="@string/voltar_a_pagina_anterior"
             android:padding="12dp"
             android:src="@drawable/round_arrow_back_ios_24"
-            app:tint="?android:colorAccent" />
+            app:tint="@color/accentColor" />
 
         <TextView
             android:layout_width="wrap_content"
