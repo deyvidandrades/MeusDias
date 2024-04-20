@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_r24_top"
-    android:backgroundTint="@color/surfaceColor"
+    android:backgroundTint="@color/surface"
     android:orientation="vertical"
     android:padding="24dp">
 
@@ -13,7 +13,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_r16"
-        android:backgroundTint="@color/accentColor" />
+        android:backgroundTint="@color/accent" />
 
     <TextView
         android:id="@+id/info"
@@ -27,7 +27,7 @@
         android:text="@string/esta_uma_visualiza_o_de_seus_ultimos_objetivos"
         android:textAlignment="center"
         android:textSize="12sp"
-        app:drawableTint="@color/accentColor"
+        app:drawableTint="@color/accent"
         app:drawableTopCompat="@drawable/outline_info_24" />
 
     <androidx.recyclerview.widget.RecyclerView

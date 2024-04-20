@@ -67,7 +67,7 @@ object NotificacoesUtil {
             .setAutoCancel(true)
             .setColorized(true)
             .setShowWhen(true)
-            .setColor(context.getColor(R.color.accentColor))
+            .setColor(context.getColor(R.color.accent))
             .setCategory(Notification.CATEGORY_REMINDER)
             .setContentTitle(titulo)
             .setContentText(descricao)

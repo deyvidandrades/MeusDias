@@ -15,14 +15,14 @@
     <!-- BG #211C2E  -->
     <!-- ACC #9C99F7   -->
 
-    <color name="backgroundColor">#211C2E</color>
+    <color name="background">#211C2E</color>
 
-    <color name="textColor">#E2E1E8</color>
-    <color name="textColorAlt">#888494</color>
+    <color name="text">#E2E1E8</color>
+    <color name="textAlt">#888494</color>
 
-    <color name="accentColor">#9C99F7</color>
+    <color name="accent">#9C99F7</color>
 
-    <color name="surfaceColor">#352E49</color><!--322B47-->
+    <color name="surface">#352E49</color><!--322B47-->
 
 
 </resources>

@@ -21,7 +21,7 @@
             android:layout_height="48dp"
             android:contentDescription="@string/menu_de_op_es"
             android:src="@drawable/round_trending_down_24"
-            app:tint="@color/accentColor" />
+            app:tint="@color/accent" />
 
         <ImageView
             android:id="@+id/btn_opcoes"
@@ -33,7 +33,7 @@
             android:contentDescription="@string/a_o_de_abrir_configura_es"
             android:padding="12dp"
             android:src="@drawable/round_more_vert_24"
-            app:tint="@color/accentColor" />
+            app:tint="@color/accent" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -62,8 +62,8 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="@string/_0_dias"
-                android:textColor="@color/accentColor"
-                android:textSize="64sp"/>
+                android:textColor="@color/accent"
+                android:textSize="64sp" />
 
             <EditText
                 android:id="@+id/mensagem"
@@ -75,8 +75,8 @@
                 android:fontFamily="sans-serif-black"
                 android:hint="@string/sem"
                 android:inputType="textMultiLine"
-                android:textColorHint="@color/textColor"
-                android:textSize="64sp"/>
+                android:textColorHint="@color/text"
+                android:textSize="64sp" />
 
             <TextView
                 android:id="@+id/info"
@@ -86,7 +86,7 @@
                 android:text="@string/clique_longo_para_editar"
                 android:textSize="12sp"
                 app:drawableStartCompat="@drawable/outline_info_24"
-                app:drawableTint="@color/textColor" />
+                app:drawableTint="@color/text" />
         </LinearLayout>
 
         <nl.dionsegijn.konfetti.xml.KonfettiView
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="@string/_0_dias"
-                android:textColor="@color/accentColor"
+                android:textColor="@color/accent"
                 android:textSize="44sp"
                 android:textStyle="bold" />
 
@@ -149,9 +149,9 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_r24"
-        android:backgroundTint="@color/accentColor"
+        android:backgroundTint="@color/accent"
         android:contentDescription="@string/a_o_de_compartilhar"
         android:padding="18dp"
         android:src="@drawable/round_share_24"
-        app:tint="@color/surfaceColor" />
+        app:tint="@color/surface" />
 </RelativeLayout>

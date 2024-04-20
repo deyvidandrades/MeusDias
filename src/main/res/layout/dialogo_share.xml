@@ -13,7 +13,7 @@
         android:layout_height="4dp"
         android:layout_gravity="center_horizontal"
         android:background="@drawable/rounded_r16"
-        android:backgroundTint="@color/accentColor" />
+        android:backgroundTint="@color/accent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -35,5 +35,5 @@
         android:text="@string/escolha_um_cart_o_e_clique_nele_para_confirmar"
         android:textSize="12sp"
         app:drawableStartCompat="@drawable/outline_info_24"
-        app:drawableTint="@color/textColor" />
+        app:drawableTint="@color/text" />
 </LinearLayout>
