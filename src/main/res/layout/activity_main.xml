@@ -69,19 +69,17 @@
 
             <EditText
                 android:id="@+id/mensagem"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-12dp"
-                android:background="@null"
+                android:background="@android:color/transparent"
                 android:fontFamily="sans-serif-medium"
                 android:hint="@string/sem"
-                android:imeOptions="actionDone"
-                android:importantForAutofill="no"
-                android:inputType="text|textMultiLine"
+                android:inputType="textMultiLine"
                 android:textColorHint="?android:textColor"
                 android:textSize="64sp"
                 android:textStyle="bold"
-                tools:ignore="LabelFor" />
+                android:autofillHints="no" />
 
             <TextView
                 android:id="@+id/info"
