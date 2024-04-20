@@ -176,6 +176,7 @@ object Persistencia {
 
     fun limparDados() {
         arrayObjetivos.clear()
+        arrayObjetivos.add(Objetivo("sem um objetivo"))
         salvarDados()
     }
 }
