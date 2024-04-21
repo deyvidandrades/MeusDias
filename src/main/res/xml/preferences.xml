@@ -37,16 +37,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="categoria_dados"
-        android:title="Dados">
-        <Preference
-            android:icon="@drawable/round_delete_forever_24"
-            android:key="reset"
-            android:summary="Apagar todos os dados de contagem e seus recordes."
-            android:title="Remover dados" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="categoria_customizacao"
         android:title="Recursos Experimentais"
         app:initialExpandedChildrenCount="1">
@@ -62,24 +52,38 @@
             android:dependency="habilitar_experimentais"
             android:dialogTitle="Timestamp"
             android:key="debug_primeiro"
+            android:summary="Alterar a data de início do objetivo atual."
             android:title="Alterar inicio do progresso"
             app:useSimpleSummaryProvider="true" />
 
-        <EditTextPreference
+        <SeekBarPreference
+            android:defaultValue="0"
             android:dependency="habilitar_experimentais"
-            android:dialogTitle="Numero de dias"
             android:key="debug_num_dias"
-            android:title="Alterar o numero de dias"
-            app:useSimpleSummaryProvider="true" />
+            android:max="100"
+            android:summary="Este valor determina o número de dias cumpridos do objetivo atual."
+            android:title="Número de dias"
+            app:showSeekBarValue="true" />
 
-        <EditTextPreference
+        <SeekBarPreference
+            android:defaultValue="0"
             android:dependency="habilitar_experimentais"
-            android:dialogTitle="Número de dias seguidos"
             android:key="debug_recorde"
+            android:max="100"
+            android:summary="Este valor determina o recorde de dias cumpridos do objetivo atual."
             android:title="Alterar recorde"
-            app:useSimpleSummaryProvider="true" />
+            app:showSeekBarValue="true" />
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="categoria_dados"
+        android:title="Dados">
+        <Preference
+            android:icon="@drawable/round_delete_forever_24"
+            android:key="reset"
+            android:summary="Apagar todos os dados de contagem e seus recordes."
+            android:title="Remover dados" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="categoria_informacoes"
@@ -89,13 +93,8 @@
         <Preference
             android:icon="@drawable/ic_launcher_foreground"
             android:key="versao"
-            android:summary="@string/app_version"
-            android:title="Versão" />
-
-        <Preference
-            android:key="creditos"
             android:summary="Desenvolvido por @deyvidandrades"
-            android:title="Desenvolvedor" />
+            android:title="Versão" />
 
         <Preference
             android:key="privacidade"

@@ -4,9 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.text.InputType
 import android.widget.Toast
-import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SeekBarPreference
@@ -30,8 +28,8 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val notificacoes: SwitchPreference? = findPreference("notificacoes")
         val preferenciaReset: Preference? = findPreference("reset")
 
-        val debugRecorde: EditTextPreference? = findPreference("debug_recorde")
-        val debugNumDias: EditTextPreference? = findPreference("debug_num_dias")
+        val seekDebugNumDias: SeekBarPreference? = findPreference("debug_num_dias")
+        val seekDebugRecorde: SeekBarPreference? = findPreference("debug_recorde")
         val debugPrimeiro: Preference? = findPreference("debug_primeiro")
 
         val versao: Preference? = findPreference("versao")
@@ -47,18 +45,26 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             value = Persistencia.getHorarioNotificacao()
         }
 
+        val objetivoAtual = Persistencia.getObjetivoAtual()
+
+        seekDebugNumDias?.apply {
+            value = objetivoAtual.diasCumpridos
+            max = if (objetivoAtual.diasCumpridos < 100) 100 else objetivoAtual.diasCumpridos
+            min = 0
+        }
+
+        seekDebugRecorde?.apply {
+            value = Persistencia.getObjetivoAtual().numDiasSeguidos
+            max =  if (objetivoAtual.numDiasSeguidos < 100) 100 else objetivoAtual.numDiasSeguidos
+            min = Persistencia.getObjetivoAtual().diasCumpridos
+        }
+
         val info = requireContext().packageManager.getPackageInfo(
             requireContext().packageName, PackageManager.GET_ACTIVITIES
         )
 
         versao?.apply {
-            summary = "Meus Dias v${info.versionName}"
-        }
-        debugNumDias?.apply {
-            text = Persistencia.getObjetivoAtual().diasCumpridos.toString()
-        }
-        debugRecorde?.apply {
-            text = Persistencia.getObjetivoAtual().numDiasSeguidos.toString()
+            title = "Meus Dias v${info.versionName}"
         }
 
         notificacoes!!.setOnPreferenceChangeListener { _, newValue ->
@@ -110,33 +116,17 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        debugRecorde!!.setOnBindEditTextListener {
-            it.inputType = InputType.TYPE_CLASS_NUMBER
-        }
-        debugRecorde.setOnPreferenceChangeListener { _, newValue ->
-            try {
-                Persistencia.debugSetNumDiasRecorde(newValue.toString().toInt())
-                Toast.makeText(
-                    requireContext(), "Recorde alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
-                ).show()
-            } catch (_: Exception) {
+        seekDebugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
+            Persistencia.debugSetNumDiasRecorde(newValue as Int)
+            Toast.makeText(requireContext(), "Recorde alterado para $newValue", Toast.LENGTH_SHORT).show()
 
-            }
             true
         }
 
-        debugNumDias!!.setOnBindEditTextListener {
-            it.inputType = InputType.TYPE_CLASS_NUMBER
-        }
-        debugNumDias.setOnPreferenceChangeListener { _, newValue ->
-            try {
-                Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
-                Toast.makeText(
-                    requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
-                ).show()
-            } catch (_: Exception) {
+        seekDebugNumDias!!.setOnPreferenceChangeListener { _, newValue ->
+            Persistencia.debugSetNumDiasCumpridos(newValue as Int)
+            Toast.makeText(requireContext(), "NumDias alterado para $newValue", Toast.LENGTH_SHORT).show()
 
-            }
             true
         }
 
