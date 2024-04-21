@@ -55,7 +55,7 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
 
         seekDebugRecorde?.apply {
             value = Persistencia.getObjetivoAtual().numDiasSeguidos
-            max =  if (objetivoAtual.numDiasSeguidos < 100) 100 else objetivoAtual.numDiasSeguidos
+            max = if (objetivoAtual.numDiasSeguidos < 100) 100 else objetivoAtual.numDiasSeguidos
             min = Persistencia.getObjetivoAtual().diasCumpridos
         }
 
@@ -71,7 +71,6 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             if (newValue == false) {
                 notificacaoRecorde!!.isChecked = false
                 notificacaoDiaria!!.isChecked = false
-
             }
 
             Persistencia.setNotificacoes(newValue as Boolean)
@@ -97,14 +96,6 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        seekBarHorario!!.setOnPreferenceChangeListener { _, newValue ->
-            AssistenteAlarmManager.cancelarAlarme(requireContext())
-            AssistenteAlarmManager.criarAlarme(requireContext())
-
-            Persistencia.mudarHorarioNotificacoes(newValue as Int)
-            true
-        }
-
         preferenciaPrivacidade!!.setOnPreferenceClickListener {
             val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.uld_politica)))
             startActivity(browserIntent)
@@ -116,16 +107,28 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             true
         }
 
-        seekDebugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
-            Persistencia.debugSetNumDiasRecorde(newValue as Int)
-            Toast.makeText(requireContext(), "Recorde alterado para $newValue", Toast.LENGTH_SHORT).show()
+        seekBarHorario!!.setOnPreferenceChangeListener { _, newValue ->
+            AssistenteAlarmManager.cancelarAlarme(requireContext())
+            AssistenteAlarmManager.criarAlarme(requireContext())
 
+            Persistencia.mudarHorarioNotificacoes(newValue.toString().toInt())
             true
         }
 
         seekDebugNumDias!!.setOnPreferenceChangeListener { _, newValue ->
-            Persistencia.debugSetNumDiasCumpridos(newValue as Int)
-            Toast.makeText(requireContext(), "NumDias alterado para $newValue", Toast.LENGTH_SHORT).show()
+            Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
+            Toast.makeText(
+                requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
+            ).show()
+
+            true
+        }
+
+        seekDebugRecorde!!.setOnPreferenceChangeListener { _, newValue ->
+            Persistencia.debugSetNumDiasRecorde(newValue.toString().toInt())
+            Toast.makeText(
+                requireContext(), "Recorde alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
+            ).show()
 
             true
         }
