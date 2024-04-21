@@ -37,8 +37,6 @@ import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var etMensagem: EditText
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
@@ -49,7 +47,6 @@ class MainActivity : AppCompatActivity() {
         val btnOpcoes: ImageView = findViewById(R.id.btn_opcoes)
         val btnShare: ImageView = findViewById(R.id.btn_share)
         val btnHistorico: Button = findViewById(R.id.btn_historico)
-        etMensagem = findViewById(R.id.mensagem)
 
         btnOpcoes.setOnClickListener { v ->
             AnimacaoBotao.animar(v)
@@ -71,31 +68,37 @@ class MainActivity : AppCompatActivity() {
         }
 
         updateUI()
-        configurarTexto()
         verificarRecorde()
         configurarPermissoes()
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
-        val objetivoAtual = Persistencia.getObjetivoAtual()
-        val numDias = objetivoAtual.diasCumpridos
-        val numDiasRecorde = objetivoAtual.numDiasSeguidos
+        try {
+            Persistencia.getInstance(this)
+            val objetivoAtual = Persistencia.getObjetivoAtual()
+            val numDias = objetivoAtual.diasCumpridos
+            val numDiasRecorde = objetivoAtual.numDiasSeguidos
 
-        val tvNumDias: TextView = findViewById(R.id.dias)
-        val tvNumRecorde: TextView = findViewById(R.id.recorde)
-        val tvDataRecorde: TextView = findViewById(R.id.infoRecorde)
+            val tvNumDias: TextView = findViewById(R.id.dias)
+            val tvNumRecorde: TextView = findViewById(R.id.recorde)
+            val tvDataRecorde: TextView = findViewById(R.id.infoRecorde)
+            val etMensagem: EditText = findViewById(R.id.mensagem)
 
-        etMensagem.setText(objetivoAtual.titulo)
+            etMensagem.setText(objetivoAtual.titulo)
 
-        tvNumDias.text = if (numDias < 2) "$numDias dia" else "$numDias dias"
-        tvNumRecorde.text = if (numDiasRecorde < 2) "$numDiasRecorde dia" else "$numDiasRecorde dias"
-        tvDataRecorde.text = "Alcançado em ${
-            SimpleDateFormat(
-                "dd/MM/yyyy",
-                Locale.getDefault()
-            ).format(Date(objetivoAtual.dataRecorde))
-        }"
+            tvNumDias.text = if (numDias < 2) "$numDias dia" else "$numDias dias"
+            tvNumRecorde.text = if (numDiasRecorde < 2) "$numDiasRecorde dia" else "$numDiasRecorde dias"
+            tvDataRecorde.text = "Alcançado em ${
+                SimpleDateFormat(
+                    "dd/MM/yyyy",
+                    Locale.getDefault()
+                ).format(Date(objetivoAtual.dataRecorde))
+            }"
+
+            configurarTexto(etMensagem)
+        } catch (_: Exception) {
+        }
     }
 
     private fun configurarPermissoes() {
@@ -130,38 +133,36 @@ class MainActivity : AppCompatActivity() {
         AssistenteAlarmManager.criarAlarme(this)
     }
 
-    private fun configurarTexto() {
+    private fun configurarTexto(view: EditText) {
         val tvInfo: TextView = findViewById(R.id.info)
 
-        Persistencia.getObjetivoAtual().titulo
-
-        etMensagem.setOnLongClickListener {
-            etMensagem.setText(etMensagem.text.toString().replace(".", ""))
-            etMensagem.isFocusableInTouchMode = true
-            etMensagem.findFocus()
+        view.setOnLongClickListener {
+            view.setText(view.text.toString().replace(".", ""))
+            view.isFocusableInTouchMode = true
+            view.findFocus()
             tvInfo.setText(R.string.clique_longo_para_salvar)
             false
         }
 
-        etMensagem.addTextChangedListener(object : TextWatcher {
+        view.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
                 if (s.toString().contains(".")) {
-                    etMensagem.isFocusable = false
+                    view.isFocusable = false
 
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    imm.hideSoftInputFromWindow(etMensagem.windowToken, 0)
+                    imm.hideSoftInputFromWindow(view.windowToken, 0)
 
                     tvInfo.setText(R.string.clique_longo_para_editar)
 
-                    Persistencia.mudarTitulo(etMensagem.text.toString())
+                    Persistencia.mudarTitulo(view.text.toString())
                 }
 
                 if (s.toString().contains("\n")) {
-                    etMensagem.setText(s.toString().replace("\n", ""))
-                    etMensagem.setSelection(etMensagem.text.length)
+                    view.setText(s.toString().replace("\n", ""))
+                    view.setSelection(view.text.length)
                 }
             }
         })
