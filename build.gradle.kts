@@ -11,8 +11,8 @@ android {
         applicationId = "com.deyvidandrades.meusdias"
         minSdk = 29
         targetSdk = 34
-        versionCode = 26
-        versionName = "1.3.11"
+        versionCode = 27
+        versionName = "1.3.12"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
