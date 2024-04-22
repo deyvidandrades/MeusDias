@@ -59,15 +59,6 @@
         <SeekBarPreference
             android:defaultValue="0"
             android:dependency="habilitar_experimentais"
-            android:key="debug_num_dias"
-            android:max="100"
-            android:summary="Este valor determina o número de dias cumpridos do objetivo atual."
-            android:title="Número de dias"
-            app:showSeekBarValue="true" />
-
-        <SeekBarPreference
-            android:defaultValue="0"
-            android:dependency="habilitar_experimentais"
             android:key="debug_recorde"
             android:max="100"
             android:summary="Este valor determina o recorde de dias cumpridos do objetivo atual."

@@ -28,7 +28,6 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
         val notificacoes: SwitchPreference? = findPreference("notificacoes")
         val preferenciaReset: Preference? = findPreference("reset")
 
-        val seekDebugNumDias: SeekBarPreference? = findPreference("debug_num_dias")
         val seekDebugRecorde: SeekBarPreference? = findPreference("debug_recorde")
         val debugPrimeiro: Preference? = findPreference("debug_primeiro")
 
@@ -41,22 +40,18 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             .setTitleText("Selecione uma data")
             .build()
 
+        Persistencia.getInstance(requireContext())
+
         seekBarHorario?.apply {
             value = Persistencia.getHorarioNotificacao()
         }
 
         val objetivoAtual = Persistencia.getObjetivoAtual()
 
-        seekDebugNumDias?.apply {
-            value = objetivoAtual.diasCumpridos
-            max = if (objetivoAtual.diasCumpridos < 100) 100 else objetivoAtual.diasCumpridos
-            min = 0
-        }
-
         seekDebugRecorde?.apply {
-            value = Persistencia.getObjetivoAtual().numDiasSeguidos
+            value = objetivoAtual.numDiasSeguidos
             max = if (objetivoAtual.numDiasSeguidos < 100) 100 else objetivoAtual.numDiasSeguidos
-            min = Persistencia.getObjetivoAtual().diasCumpridos
+            min = objetivoAtual.diasCumpridos
         }
 
         val info = requireContext().packageManager.getPackageInfo(
@@ -112,15 +107,6 @@ class FragmentoPreferencias : PreferenceFragmentCompat() {
             AssistenteAlarmManager.criarAlarme(requireContext())
 
             Persistencia.mudarHorarioNotificacoes(newValue.toString().toInt())
-            true
-        }
-
-        seekDebugNumDias!!.setOnPreferenceChangeListener { _, newValue ->
-            Persistencia.debugSetNumDiasCumpridos(newValue.toString().toInt())
-            Toast.makeText(
-                requireContext(), "NumDias alterado para ${newValue.toString().toInt()}", Toast.LENGTH_SHORT
-            ).show()
-
             true
         }
 

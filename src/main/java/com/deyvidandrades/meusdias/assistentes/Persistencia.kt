@@ -19,6 +19,10 @@ object Persistencia {
     private var preferences: SharedPreferences? = null
     private var arrayObjetivos: ArrayList<Objetivo> = ArrayList()
 
+    init {
+        arrayObjetivos.add(Objetivo("sem um objetivo"))
+    }
+
     enum class Paths { NOTIFICACOES, NOTIFICACOES_DIARIAS, NOTIFICACOES_HORARIO, NOTIFICACOES_RECORDE, OBJETIVOS, REVIEW }
 
     fun getInstance(context: Context) {
@@ -44,6 +48,7 @@ object Persistencia {
                 arrayObjetivos.clear()
                 arrayObjetivos.addAll(Gson().fromJson(listaRawObjetivos, typeTokenObjetivos))
             } else {
+                arrayObjetivos.clear()
                 arrayObjetivos.add(Objetivo("sem um objetivo"))
                 salvarDados()
             }
@@ -68,13 +73,6 @@ object Persistencia {
     }
 
     /*FLUXO DEBUG*/
-
-    fun debugSetNumDiasCumpridos(num: Int) {
-        val objetivoAtual = getObjetivoAtual()
-
-        objetivoAtual.diasCumpridos = num
-        salvarDados()
-    }
 
     fun debugSetNumDiasRecorde(num: Int) {
         val objetivoAtual = getObjetivoAtual()
