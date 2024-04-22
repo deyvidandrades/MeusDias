@@ -61,6 +61,7 @@ class AdaptadorShare(
         holder.tvFraseRecorde.setTextColor(corText)
         holder.tvRecorde.setTextColor(corAccent)
 
+        Persistencia.getInstance(context)
         val objetivoAtual = Persistencia.getObjetivoAtual()
 
         holder.tvNumDias.text =

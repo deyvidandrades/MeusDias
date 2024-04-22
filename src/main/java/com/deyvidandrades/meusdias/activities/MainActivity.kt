@@ -42,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         setContentView(R.layout.activity_main)
 
-        Persistencia.getInstance(this)
-
         val btnOpcoes: ImageView = findViewById(R.id.btn_opcoes)
         val btnShare: ImageView = findViewById(R.id.btn_share)
         val btnHistorico: Button = findViewById(R.id.btn_historico)

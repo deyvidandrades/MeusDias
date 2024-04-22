@@ -12,6 +12,7 @@ object AssistenteAlarmManager {
 
     fun criarAlarme(context: Context) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        Persistencia.getInstance(context)
 
         val intentVerificacao = PendingIntent.getBroadcast(
             context,
