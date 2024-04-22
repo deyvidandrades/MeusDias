@@ -7,7 +7,6 @@
     <string name="clique_longo_para_editar">clique e segure na frase para editar.</string>
     <string name="clique_longo_para_salvar">digite um ponto final para salvar.</string>
     <string name="configura_es">Configurações</string>
-    <string name="app_version">Meus Dias v0.1.2</string>
     <string name="menu_de_op_es">Menu de opções</string>
     <string name="sem">sem…</string>
     <string name="voltar_a_pagina_anterior">voltar a pagina anterior</string>
@@ -25,7 +24,7 @@
     <string name="dados_resetados">Dados resetados</string>
     <string name="esta_uma_visualiza_o_de_seus_ultimos_objetivos">Esta é uma visualização de seus últimos objetivos. A cada falha, um novo registro é adicionado no histórico. Você pode limpar os registros nas configurações do app.</string>
     <string name="come_ou_em">Começou em</string>
-    <string name="alcan_ou_em">Alcançou em</string>
+    <string name="alcancou_em">Alcançou em</string>
     <string name="botao_de_acao_para_abrir_o_historico_de_objetivos_od_usuario">Botão de ação para abrir o histórico de objetivos od usuário</string>
     <string name="apagar_dados">Apagar dados</string>
     <string name="cancelar">Cancelar</string>

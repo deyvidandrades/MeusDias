@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
-                android:text="@string/alcan_ou_em"
+                android:text="@string/alcancou_em"
                 android:textAllCaps="true"
                 android:textColor="@color/accent"
                 android:textSize="12sp" />
