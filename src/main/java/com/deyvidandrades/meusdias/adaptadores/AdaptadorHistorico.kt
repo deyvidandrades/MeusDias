@@ -37,7 +37,8 @@ class AdaptadorHistorico(
         val dataRecorde = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(item.dataRecorde))
 
         holder.tvFrase.text = item.titulo
-        holder.tvNumDias.text = "${item.numDiasSeguidos} ${if (item.numDiasSeguidos > 1) "dias" else "dia"}"
+        holder.tvNumDias.text = "${item.diasCumpridos} ${if (item.diasCumpridos > 1) "dias" else "dia"}"
+        holder.tvNumRecorde.text = "${item.numDiasSeguidos} ${if (item.numDiasSeguidos > 1) "dias" else "dia"}"
         holder.tvDataInicio.text = dataInicio
         holder.tvDataRecorde.text = dataRecorde
     }
@@ -48,6 +49,7 @@ class AdaptadorHistorico(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvNumDias: TextView
+        var tvNumRecorde: TextView
         var tvFrase: TextView
         var tvDataInicio: TextView
         var tvDataRecorde: TextView
@@ -57,6 +59,7 @@ class AdaptadorHistorico(
             tvFrase = itemView.findViewById(R.id.tvFrase)
             tvDataInicio = itemView.findViewById(R.id.tv_data_inicio)
             tvDataRecorde = itemView.findViewById(R.id.tv_data_recorde)
+            tvNumRecorde = itemView.findViewById(R.id.tvNumRecorde)
         }
     }
 

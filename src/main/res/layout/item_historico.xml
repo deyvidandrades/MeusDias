@@ -2,9 +2,9 @@
     android:id="@+id/relative_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
     android:background="@drawable/rounded_r16_outline"
     android:orientation="vertical"
-    android:layout_marginBottom="16dp"
     android:padding="24dp">
 
     <TextView
@@ -23,6 +23,31 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="@string/sem"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="12dp"
+        android:alpha=".1"
+        android:background="@color/accent" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/meu_recorde_foi_de"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvNumRecorde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/_0_dias"
+        android:textColor="@color/accent"
         android:textSize="24sp"
         android:textStyle="bold" />
 
