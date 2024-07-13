@@ -4,6 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import com.deyvidandrades.meusdias.servicos.NotificationReceiver
 import java.util.Calendar
 
@@ -31,10 +32,7 @@ object AssistenteAlarmManager {
 
             val calendar: Calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
-                set(
-                    Calendar.HOUR_OF_DAY,
-                    Persistencia.getHorarioNotificacao()
-                )
+                set(Calendar.HOUR_OF_DAY, Persistencia.getHorarioNotificacao())
             }
 
             alarmManager.setRepeating(
@@ -44,7 +42,7 @@ object AssistenteAlarmManager {
                 pendingIntent
             )
 
-            println("DWS.D - Alarme criado: Horario ${Persistencia.getHorarioNotificacao()}")
+            Log.d("DWS.D", "Alarme criado: Horario ${Persistencia.getHorarioNotificacao()}")
         }
     }
 
@@ -59,6 +57,6 @@ object AssistenteAlarmManager {
 
         alarmManager.cancel(existingPendingIntent)
 
-        println("DWS.D - Alarme cancelado")
+        Log.d("DWS.D", "Alarme cancelado")
     }
 }

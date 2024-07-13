@@ -23,7 +23,7 @@ class DialogoRemoverDados : BottomSheetDialogFragment() {
         val btnCancelar: Button = dialogoView.findViewById(R.id.btn_cancelar)
 
         btnRemover.setOnClickListener {
-            Persistencia.limparDados()
+            Persistencia.limparRecordes()
             Toast.makeText(requireContext(), getString(R.string.dados_resetados), Toast.LENGTH_SHORT).show()
             dismiss()
         }

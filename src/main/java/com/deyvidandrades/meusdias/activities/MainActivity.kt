@@ -2,7 +2,6 @@ package com.deyvidandrades.meusdias.activities
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -13,8 +12,10 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.deyvidandrades.meusdias.R
@@ -22,6 +23,8 @@ import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
 import com.deyvidandrades.meusdias.assistentes.NotificacoesUtil
 import com.deyvidandrades.meusdias.assistentes.Persistencia
+import com.deyvidandrades.meusdias.dataclasses.Objetivo
+import com.deyvidandrades.meusdias.dialogos.DialogoConfiguracoes
 import com.deyvidandrades.meusdias.dialogos.DialogoHistorico
 import com.deyvidandrades.meusdias.dialogos.DialogoShare
 import com.google.android.play.core.review.ReviewManagerFactory
@@ -29,28 +32,38 @@ import nl.dionsegijn.konfetti.core.Party
 import nl.dionsegijn.konfetti.core.Position
 import nl.dionsegijn.konfetti.core.emitter.Emitter
 import nl.dionsegijn.konfetti.xml.KonfettiView
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var objetivo: Objetivo
+    private var editou: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContentView(R.layout.activity_main)
+        enableEdgeToEdge()
 
-        val btnOpcoes: ImageView = findViewById(R.id.btn_opcoes)
+        Persistencia.getInstance(this)
+        objetivo = Persistencia.getObjetivo()
+
+        AppCompatDelegate.setDefaultNightMode(
+            if (Persistencia.getTemaEscuro()) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        )
+
+        val btnOpcoes: Button = findViewById(R.id.btn_opcoes)
         val btnShare: ImageView = findViewById(R.id.btn_share)
         val btnHistorico: Button = findViewById(R.id.btn_historico)
 
-        btnOpcoes.setOnClickListener { v ->
-            AnimacaoBotao.animar(v)
+        btnOpcoes.setOnClickListener {
+            val customBottomSheet = DialogoConfiguracoes()
+            customBottomSheet.show(supportFragmentManager, DialogoConfiguracoes::class.simpleName)
+        }
 
-            val intent = Intent(this, ConfiguracoesActivity::class.java)
-            startActivity(intent)
+        btnHistorico.setOnClickListener {
+            val customBottomSheet = DialogoHistorico()
+            customBottomSheet.show(supportFragmentManager, DialogoHistorico::class.simpleName)
         }
 
         btnShare.setOnClickListener { v ->
@@ -59,44 +72,32 @@ class MainActivity : AppCompatActivity() {
             val customBottomSheet = DialogoShare()
             customBottomSheet.show(supportFragmentManager, DialogoShare::class.simpleName)
         }
-
-        btnHistorico.setOnClickListener {
-            val customBottomSheet = DialogoHistorico()
-            customBottomSheet.show(supportFragmentManager, DialogoHistorico::class.simpleName)
-        }
-
         updateUI()
-        verificarRecorde()
         configurarPermissoes()
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateUI() {
-        try {
-            Persistencia.getInstance(this)
-            val objetivoAtual = Persistencia.getObjetivoAtual()
-            val numDias = objetivoAtual.diasCumpridos
-            val numDiasRecorde = objetivoAtual.numDiasSeguidos
+        verificarRecorde()
+        objetivo = Persistencia.getObjetivo()
 
-            val tvNumDias: TextView = findViewById(R.id.dias)
-            val tvNumRecorde: TextView = findViewById(R.id.recorde)
-            val tvDataRecorde: TextView = findViewById(R.id.infoRecorde)
-            val etMensagem: EditText = findViewById(R.id.mensagem)
+        val tvNumDias: TextView = findViewById(R.id.dias)
+        val tvNumRecorde: TextView = findViewById(R.id.recorde)
+        val etMensagem: EditText = findViewById(R.id.mensagem)
 
-            etMensagem.setText(objetivoAtual.titulo)
+        etMensagem.setText(objetivo.titulo)
 
-            tvNumDias.text = if (numDias < 2) "$numDias dia" else "$numDias dias"
-            tvNumRecorde.text = if (numDiasRecorde < 2) "$numDiasRecorde dia" else "$numDiasRecorde dias"
-            tvDataRecorde.text = "Alcançado em ${
-                SimpleDateFormat(
-                    "dd/MM/yyyy",
-                    Locale.getDefault()
-                ).format(Date(objetivoAtual.dataRecorde))
-            }"
+        tvNumDias.text = if (objetivo.numDias < 2)
+            getString(R.string.dia, objetivo.numDias.toString())
+        else
+            getString(R.string.dias, objetivo.numDias.toString())
 
-            configurarTexto(etMensagem)
-        } catch (_: Exception) {
-        }
+        tvNumRecorde.text = if (objetivo.numRecorde < 2)
+            getString(R.string.dia, objetivo.numRecorde.toString())
+        else
+            getString(R.string.dias, objetivo.numRecorde.toString())
+
+        configurarTexto(etMensagem)
     }
 
     private fun configurarPermissoes() {
@@ -139,6 +140,7 @@ class MainActivity : AppCompatActivity() {
             view.isFocusableInTouchMode = true
             view.findFocus()
             tvInfo.setText(R.string.clique_longo_para_salvar)
+            editou = true
             false
         }
 
@@ -147,7 +149,7 @@ class MainActivity : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable) {
-                if (s.toString().contains(".")) {
+                if (s.toString().contains(".") && editou) {
                     view.isFocusable = false
 
                     val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -155,7 +157,8 @@ class MainActivity : AppCompatActivity() {
 
                     tvInfo.setText(R.string.clique_longo_para_editar)
 
-                    Persistencia.mudarTitulo(view.text.toString())
+                    Persistencia.novoObjetivo(view.text.toString())
+                    editou = false
                 }
 
                 if (s.toString().contains("\n")) {
@@ -167,12 +170,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun verificarRecorde() {
-        if (Persistencia.checarRecorde()) {
+        if (Persistencia.verificarRecorde()) {
             jogarConfetti()
-            updateUI()
 
             //Exibir AppReview
-            if (!Persistencia.getReview())
+            if (!Persistencia.getPlayReview())
                 verificarReview()
         }
     }
@@ -188,7 +190,7 @@ class MainActivity : AppCompatActivity() {
 
                 val flow = manager.launchReviewFlow(this, reviewInfo)
                 flow.addOnCompleteListener {
-                    Persistencia.setReview()
+                    Persistencia.setPlayReview()
                 }
             }
         }
@@ -207,11 +209,5 @@ class MainActivity : AppCompatActivity() {
                 position = Position.Relative(0.5, 0.3)
             )
         )
-    }
-
-    @Override
-    override fun onResume() {
-        super.onResume()
-        updateUI()
     }
 }

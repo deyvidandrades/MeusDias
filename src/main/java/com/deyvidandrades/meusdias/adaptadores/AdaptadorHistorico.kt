@@ -8,19 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.deyvidandrades.meusdias.R
-import com.deyvidandrades.meusdias.objetos.Objetivo
+import com.deyvidandrades.meusdias.dataclasses.Recorde
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class AdaptadorHistorico(
-    context: Context,
-    arrayList: ArrayList<Objetivo>
-) :
+class AdaptadorHistorico(private val context: Context, private val arrayList: ArrayList<Recorde> = ArrayList()) :
     RecyclerView.Adapter<AdaptadorHistorico.ViewHolder>() {
 
-    private val context: Context
-    private var arrayList: ArrayList<Objetivo> = ArrayList()
+    //private var arrayList: ArrayList<Recorde> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(
@@ -33,14 +29,9 @@ class AdaptadorHistorico(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = arrayList[position]
 
-        val dataInicio = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(item.dataCriacao))
-        val dataRecorde = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(item.dataRecorde))
-
         holder.tvFrase.text = item.titulo
-        holder.tvNumDias.text = "${item.diasCumpridos} ${if (item.diasCumpridos > 1) "dias" else "dia"}"
-        holder.tvNumRecorde.text = "${item.numDiasSeguidos} ${if (item.numDiasSeguidos > 1) "dias" else "dia"}"
-        holder.tvDataInicio.text = dataInicio
-        holder.tvDataRecorde.text = dataRecorde
+        holder.tvNumDias.text = "${item.numDias} ${if (item.numDias > 1) "dias" else "dia"}"
+        holder.tvData.text = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(item.data))
     }
 
     override fun getItemCount(): Int {
@@ -48,23 +39,12 @@ class AdaptadorHistorico(
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tvNumDias: TextView
-        var tvNumRecorde: TextView
-        var tvFrase: TextView
-        var tvDataInicio: TextView
-        var tvDataRecorde: TextView
-
-        init {
-            tvNumDias = itemView.findViewById(R.id.tvNumDias)
-            tvFrase = itemView.findViewById(R.id.tvFrase)
-            tvDataInicio = itemView.findViewById(R.id.tv_data_inicio)
-            tvDataRecorde = itemView.findViewById(R.id.tv_data_recorde)
-            tvNumRecorde = itemView.findViewById(R.id.tvNumRecorde)
-        }
+        var tvNumDias: TextView = itemView.findViewById(R.id.tv_num_dias)
+        var tvFrase: TextView = itemView.findViewById(R.id.tv_frase)
+        var tvData: TextView = itemView.findViewById(R.id.tv_data)
     }
 
-    init {
-        this.context = context
-        this.arrayList = arrayList
-    }
+    //init {
+    //    this.arrayList = arrayList
+    //}
 }

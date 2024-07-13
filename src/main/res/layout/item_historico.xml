@@ -3,13 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    android:background="@drawable/rounded_r16_outline"
+    android:background="@drawable/rounded_r16"
+    android:backgroundTint="@color/background"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/tvNumDias"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_num_dias"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="@string/_0_dias"
@@ -18,7 +19,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvFrase"
+        android:id="@+id/tv_frase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
@@ -26,93 +27,12 @@
         android:textSize="24sp"
         android:textStyle="bold" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginVertical="12dp"
-        android:alpha=".1"
-        android:background="@color/accent" />
-
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/meu_recorde_foi_de"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvNumRecorde"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/_0_dias"
-        android:textColor="@color/accent"
-        android:textSize="24sp"
-        android:textStyle="bold" />
-
-    <LinearLayout
+        android:id="@+id/tv_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="12dp"
-        android:weightSum="2">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/come_ou_em"
-                android:textAllCaps="true"
-                android:textColor="@color/accent"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_data_inicio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_0_dias"
-                android:textSize="14sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="12dp"
-            android:alpha=".1"
-            android:background="@color/accent" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/alcancou_em"
-                android:textAllCaps="true"
-                android:textColor="@color/accent"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/tv_data_recorde"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_0_dias"
-                android:textSize="14sp" />
-        </LinearLayout>
-    </LinearLayout>
+        android:textAllCaps="true"
+        android:textSize="14sp"
+        android:textStyle="bold" />
 </LinearLayout>

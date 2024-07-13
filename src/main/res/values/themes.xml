@@ -21,12 +21,11 @@
         <item name="android:textColorPrimary">@color/text</item>
         <item name="android:textColorSecondary">@color/textAlt</item>
         <item name="android:textColorPrimaryInverse">@color/text</item>
+
     </style>
 
-    <style name="Theme.MeusDias" parent="Base.Theme.MeusDias" />
-
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/background</item>
+        <item name="windowSplashScreenBackground">@color/text</item>
 
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/surface</item>

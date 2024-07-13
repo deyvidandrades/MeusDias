@@ -2,31 +2,30 @@ package com.deyvidandrades.meusdias.assistentes
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.deyvidandrades.meusdias.objetos.Objetivo
+import com.deyvidandrades.meusdias.R
+import com.deyvidandrades.meusdias.dataclasses.Objetivo
+import com.deyvidandrades.meusdias.dataclasses.Recorde
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 object Persistencia {
 
-    private var review: Boolean = false
-    private var notificacoes: Boolean = true
-    private var notificacoesHorario: Int = 8
-    private var notificacoesDiarias: Boolean = true
-    private var notificacoesRecorde: Boolean = true
+    private var isPlayReview: Boolean = false
+    private var isTemaEscuro: Boolean = false
+    private var isNotificacoes: Boolean = false
+    private var horarioNotificacoes: Int = 8
 
     private var preferences: SharedPreferences? = null
-    private var arrayObjetivos: ArrayList<Objetivo> = ArrayList()
 
-    init {
-        arrayObjetivos.add(Objetivo("sem um objetivo"))
-    }
+    private var arrayRecordes: ArrayList<Recorde> = ArrayList()
+    private lateinit var objetivo: Objetivo
 
-    enum class Paths { NOTIFICACOES, NOTIFICACOES_DIARIAS, NOTIFICACOES_HORARIO, NOTIFICACOES_RECORDE, OBJETIVOS, REVIEW }
+    enum class Paths { OBJETIVO, RECORDES, NOTIFICACOES, HORARIO_NOTIFICACOES, TEMA_ESCURO, PLAY_REVIEW }
 
     fun getInstance(context: Context) {
+        objetivo = Objetivo(context.getString(R.string.sem_um_objetivo))
         preferences = context.getSharedPreferences("MAIN_DATA", Context.MODE_PRIVATE)
+
         carregarDados()
     }
 
@@ -34,147 +33,116 @@ object Persistencia {
 
     private fun carregarDados() {
         if (preferences != null) {
-            review = preferences!!.getBoolean(Paths.REVIEW.name.lowercase(), false)
-            notificacoes = preferences!!.getBoolean(Paths.NOTIFICACOES.name.lowercase(), true)
-            notificacoesHorario = preferences!!.getInt(Paths.NOTIFICACOES_HORARIO.name.lowercase(), 8)
-            notificacoesDiarias = preferences!!.getBoolean(Paths.NOTIFICACOES_DIARIAS.name.lowercase(), true)
-            notificacoesRecorde = preferences!!.getBoolean(Paths.NOTIFICACOES_RECORDE.name.lowercase(), true)
+            isPlayReview = preferences!!.getBoolean(Paths.PLAY_REVIEW.name.lowercase(), false)
+            isTemaEscuro = preferences!!.getBoolean(Paths.TEMA_ESCURO.name.lowercase(), false)
+            isNotificacoes = preferences!!.getBoolean(Paths.NOTIFICACOES.name.lowercase(), true)
+            horarioNotificacoes = preferences!!.getInt(Paths.HORARIO_NOTIFICACOES.name.lowercase(), 8)
 
-            val listaRawObjetivos = preferences!!.getString(Paths.OBJETIVOS.name.lowercase(), "")
+            val listaRawRecordes = preferences!!.getString(Paths.RECORDES.name.lowercase(), "")
+            val objetivoRaw = preferences!!.getString(Paths.OBJETIVO.name.lowercase(), "")
 
-            if (listaRawObjetivos != "") {
-                val typeTokenObjetivos = object : TypeToken<ArrayList<Objetivo>>() {}.type
-
-                arrayObjetivos.clear()
-                arrayObjetivos.addAll(Gson().fromJson(listaRawObjetivos, typeTokenObjetivos))
-            } else {
-                arrayObjetivos.clear()
-                arrayObjetivos.add(Objetivo("sem um objetivo"))
-                salvarDados()
+            if (listaRawRecordes != "") {
+                val typeTokenObjetivos = object : TypeToken<ArrayList<Recorde>>() {}.type
+                arrayRecordes.clear()
+                arrayRecordes.addAll(Gson().fromJson(listaRawRecordes, typeTokenObjetivos))
             }
+
+            if (objetivoRaw != "")
+                objetivo = Gson().fromJson(objetivoRaw, object : TypeToken<Objetivo>() {}.type)
         }
     }
 
     private fun salvarDados() {
         if (preferences != null) {
             with(preferences!!.edit()) {
-                putBoolean(Paths.REVIEW.name.lowercase(), review)
-                putBoolean(Paths.NOTIFICACOES.name.lowercase(), notificacoes)
-                putInt(Paths.NOTIFICACOES_HORARIO.name.lowercase(), notificacoesHorario)
-                putBoolean(Paths.NOTIFICACOES_DIARIAS.name.lowercase(), notificacoesDiarias)
-                putBoolean(Paths.NOTIFICACOES_RECORDE.name.lowercase(), notificacoesRecorde)
+                putInt(Paths.HORARIO_NOTIFICACOES.name.lowercase(), horarioNotificacoes)
+                putBoolean(Paths.NOTIFICACOES.name.lowercase(), isNotificacoes)
+                putBoolean(Paths.PLAY_REVIEW.name.lowercase(), isPlayReview)
+                putBoolean(Paths.TEMA_ESCURO.name.lowercase(), isTemaEscuro)
 
-                putString(Paths.OBJETIVOS.name.lowercase(), Gson().toJson(arrayObjetivos))
+                putString(Paths.RECORDES.name.lowercase(), Gson().toJson(arrayRecordes))
+                putString(Paths.OBJETIVO.name.lowercase(), Gson().toJson(objetivo))
                 commit()
             }
-
             carregarDados()
         }
     }
 
-    /*FLUXO DEBUG*/
-
-    fun debugSetNumDiasRecorde(num: Int) {
-        val objetivoAtual = getObjetivoAtual()
-
-        objetivoAtual.numDiasSeguidos = num
+    fun debugObjetivo(data: Long, numDias: Int, numRecorde: Int) {
+        objetivo.data = data
+        objetivo.numDias = numDias
+        objetivo.numRecorde = numRecorde
         salvarDados()
     }
-
-    fun debugSetDataInicio(data: Long) {
-        val objetivoAtual = getObjetivoAtual()
-        val diferenca = Calendar.getInstance().timeInMillis - data
-
-        objetivoAtual.diasCumpridos = TimeUnit.MILLISECONDS.toDays(diferenca).toInt()
-        objetivoAtual.dataCriacao = data
-        salvarDados()
-    }
-
 
     /*FLUXO SETTINGS*/
 
+    fun getTemaEscuro() = isTemaEscuro
+
+    fun getNotificacoes() = isNotificacoes
+
+    fun getHorarioNotificacoes() = horarioNotificacoes
+
     fun setNotificacoes(value: Boolean) {
-        notificacoes = value
-
-        if (!notificacoes) {
-            notificacoesRecorde = false
-            notificacoesDiarias = false
-        }
-
+        isNotificacoes = value
         salvarDados()
     }
 
-    fun setNotificacoesRecorde(value: Boolean) {
-        notificacoesRecorde = value
+    fun setTemaEscuro(value: Boolean) {
+        isTemaEscuro = value
         salvarDados()
     }
 
-    fun setNotificacoesDiarias(value: Boolean) {
-        notificacoesDiarias = value
+    fun setHorarioNotificacoes(novoHorario: Int) {
+        horarioNotificacoes = novoHorario
         salvarDados()
     }
 
-    fun mudarHorarioNotificacoes(novoHorario: Int) {
-        notificacoesHorario = novoHorario
+    fun getHorarioNotificacao() = horarioNotificacoes
+
+    fun getPlayReview() = isPlayReview
+
+    fun setPlayReview() {
+        isPlayReview = true
+    }
+
+    /*FLUXO OBJETIVO*/
+
+    fun getObjetivo() = objetivo
+
+    fun novoObjetivo(novoTitulo: String) {
+        objetivo = Objetivo(novoTitulo)
         salvarDados()
-    }
-
-    fun getHorarioNotificacao() = notificacoesHorario
-
-    fun getReview() = review
-
-    fun setReview() {
-        review = true
-    }
-
-    /*FLUXO OBJETIVOS*/
-
-    fun getObjetivoAtual() = arrayObjetivos.last()
-
-    fun getObjetivos() = arrayObjetivos
-
-    fun getNumDias(): Int {
-        //fixme
-        val diferenca = Calendar.getInstance().timeInMillis - getObjetivoAtual().dataCriacao
-
-        return TimeUnit.MILLISECONDS.toDays(diferenca).toInt()
     }
 
     fun cumprirObjetivo() {
-        val objetivoAtual = getObjetivoAtual()
-        objetivoAtual.diasCumpridos += 1
+        objetivo.numDias += 1
         salvarDados()
     }
 
-    fun mudarTitulo(titulo: String) {
-        getObjetivoAtual().titulo = titulo
+    fun falharObjetivo() {
+        arrayRecordes.add(Recorde(objetivo.titulo, objetivo.numRecorde))
+        objetivo.numDias = 0
         salvarDados()
     }
 
-    fun checarRecorde(): Boolean {
-        val objetivoAtual = getObjetivoAtual()
+    /*FLUXO RECORDE*/
 
-        if (objetivoAtual.diasCumpridos > objetivoAtual.numDiasSeguidos) {
+    fun getRecordes() = arrayRecordes
 
-            objetivoAtual.numDiasSeguidos = objetivoAtual.diasCumpridos
-            objetivoAtual.dataRecorde = Calendar.getInstance().timeInMillis
+    fun limparRecordes() {
+        arrayRecordes.clear()
+        objetivo.numDias = 0
+        objetivo.numRecorde = 0
+        salvarDados()
+    }
+
+    fun verificarRecorde(): Boolean {
+        if (objetivo.numDias > objetivo.numRecorde) {
+            objetivo.numRecorde = objetivo.numDias
             salvarDados()
             return true
         }
-
         return false
-    }
-
-    fun resetObjetivo() {
-        val ultimoObjetivo = getObjetivoAtual()
-        arrayObjetivos.add(Objetivo(ultimoObjetivo.titulo))
-
-        salvarDados()
-    }
-
-    fun limparDados() {
-        arrayObjetivos.clear()
-        arrayObjetivos.add(Objetivo("sem um objetivo"))
-        salvarDados()
     }
 }

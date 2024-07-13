@@ -17,18 +17,17 @@ import com.deyvidandrades.meusdias.assistentes.Persistencia
 import com.deyvidandrades.meusdias.interfaces.OnItemClickListener
 
 class AdaptadorShare(
-    context: Context,
-    arrayList: ArrayList<HashMap<String, String>>,
+    private val context: Context,
+    private val arrayList: ArrayList<HashMap<String, String>>,
     private val listener: OnItemClickListener
 ) :
     RecyclerView.Adapter<AdaptadorShare.ViewHolder>() {
 
-    private val context: Context
-    private var arrayList: ArrayList<HashMap<String, String>> = ArrayList()
+    //private var arrayList: ArrayList<HashMap<String, String>> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view: View = LayoutInflater.from(context).inflate(
-            R.layout.card_share, parent, false
+            R.layout.item_share, parent, false
         )
         return ViewHolder(view)
     }
@@ -62,15 +61,11 @@ class AdaptadorShare(
         holder.tvRecorde.setTextColor(corAccent)
 
         Persistencia.getInstance(context)
-        val objetivoAtual = Persistencia.getObjetivoAtual()
+        val objetivo = Persistencia.getObjetivo()
 
-        holder.tvNumDias.text =
-            "${objetivoAtual.diasCumpridos} ${if (objetivoAtual.diasCumpridos > 1) "dias" else "dia"}."
-
-        holder.tvFrase.text = objetivoAtual.titulo
-
-        holder.tvRecorde.text =
-            "${objetivoAtual.numDiasSeguidos} ${if (objetivoAtual.numDiasSeguidos > 1) "dias" else "dia"}."
+        holder.tvFrase.text = objetivo.titulo
+        holder.tvNumDias.text = "${objetivo.numDias} ${if (objetivo.numDias > 1) "dias" else "dia"}."
+        holder.tvRecorde.text = "${objetivo.numRecorde} ${if (objetivo.numRecorde > 1) "dias" else "dia"}."
     }
 
     override fun getItemCount(): Int {
@@ -79,31 +74,19 @@ class AdaptadorShare(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var viewBackgroundMask: View
-        var relativeBackgroundAccent: RelativeLayout
-        var relativeBackground: RelativeLayout
-        var imgSeta: ImageView
-        var tvEstou: TextView
-        var tvNumDias: TextView
-        var tvFrase: TextView
-        var tvFraseRecorde: TextView
-        var tvRecorde: TextView
+        var relativeBackgroundAccent: RelativeLayout = itemView.findViewById(R.id.relative_background_accent)
+        var relativeBackground: RelativeLayout = itemView.findViewById(R.id.relative_background)
 
-        init {
-            viewBackgroundMask = itemView.findViewById(R.id.view_background_mask)
-            relativeBackgroundAccent = itemView.findViewById(R.id.relative_background_accent)
-            relativeBackground = itemView.findViewById(R.id.relative_background)
-            imgSeta = itemView.findViewById(R.id.seta)
-            tvEstou = itemView.findViewById(R.id.tvEstou)
-            tvNumDias = itemView.findViewById(R.id.tvNumDias)
-            tvFrase = itemView.findViewById(R.id.tvFrase)
-            tvFraseRecorde = itemView.findViewById(R.id.tv_frase_recorde)
-            tvRecorde = itemView.findViewById(R.id.tv_recorde)
-        }
+        var imgSeta: ImageView = itemView.findViewById(R.id.seta)
+        var tvEstou: TextView = itemView.findViewById(R.id.tvEstou)
+        var tvFrase: TextView = itemView.findViewById(R.id.tvFrase)
+        var tvNumDias: TextView = itemView.findViewById(R.id.tvNumDias)
+        var tvRecorde: TextView = itemView.findViewById(R.id.tv_recorde)
+        var tvFraseRecorde: TextView = itemView.findViewById(R.id.tv_frase_recorde)
+        var viewBackgroundMask: View = itemView.findViewById(R.id.view_background_mask)
     }
 
-    init {
-        this.context = context
-        this.arrayList = arrayList
-    }
+    //init {
+    //this.arrayList = arrayList
+    //}
 }

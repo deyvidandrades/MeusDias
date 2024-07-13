@@ -11,14 +11,12 @@ class NotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         Persistencia.getInstance(context)
-
-        val objetivoAtual = Persistencia.getObjetivoAtual()
-        val numDias = Persistencia.getNumDias()
+        val objetivo = Persistencia.getObjetivo()
 
         NotificacoesUtil.enviarNotificacao(
             context,
             context.getString(R.string.voce_cumpriu_seu_objetivo_hoje),
-            context.getString(R.string.estou_a_dias_sem, numDias.toString(), objetivoAtual.titulo),
+            context.getString(R.string.estou_a_dias_sem, objetivo.numDias.toString(), objetivo.titulo),
             NotificacoesUtil.Tipo.DIARIA
         )
     }
