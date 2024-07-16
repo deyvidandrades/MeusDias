@@ -39,7 +39,6 @@
     <string name="limpar_seus_dados">Limpar seus dados</string>
     <string name="botao_de_seta_para_esquerda">Botão de seta para a esquerda</string>
     <string name="botao_de_seta_para_a_direita">Botão de seta para a direita</string>
-    <string name="alcancado_em">Alcançado em %1$s</string>
     <string name="dia">%1$s dia</string>
     <string name="dias">%1$s dias</string>
 </resources>
