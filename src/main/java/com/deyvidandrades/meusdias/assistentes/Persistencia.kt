@@ -98,8 +98,6 @@ object Persistencia {
         salvarDados()
     }
 
-    fun getHorarioNotificacao() = horarioNotificacoes
-
     fun getPlayReview() = isPlayReview
 
     fun setPlayReview() {

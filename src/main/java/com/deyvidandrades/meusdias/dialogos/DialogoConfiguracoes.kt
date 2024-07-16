@@ -66,9 +66,7 @@ class DialogoConfiguracoes : BottomSheetDialogFragment() {
                 if (Persistencia.getTemaEscuro()) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
             )
 
-            AssistenteAlarmManager.cancelarAlarme(requireContext())
-            AssistenteAlarmManager.criarAlarme(requireContext())
-
+            AssistenteAlarmManager.criarAlarme(requireContext(), true)
             dismiss()
         }
 

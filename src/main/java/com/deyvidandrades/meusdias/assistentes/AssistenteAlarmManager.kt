@@ -11,9 +11,11 @@ import java.util.Calendar
 object AssistenteAlarmManager {
     private const val ALARM_CODE = 2
 
-    fun criarAlarme(context: Context) {
+    fun criarAlarme(context: Context, novoHorario: Boolean = false) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         Persistencia.getInstance(context)
+
+        val horario = Persistencia.getHorarioNotificacoes()
 
         val intentVerificacao = PendingIntent.getBroadcast(
             context,
@@ -22,7 +24,13 @@ object AssistenteAlarmManager {
             PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
         )
 
-        if (intentVerificacao == null) {
+        if (intentVerificacao != null && novoHorario) {
+            alarmManager.cancel(intentVerificacao)
+            intentVerificacao.cancel()
+            Log.d("DWS.D", "Alarme cancelado")
+        }
+
+        if (intentVerificacao == null || novoHorario) {
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
                 2,
@@ -32,31 +40,19 @@ object AssistenteAlarmManager {
 
             val calendar: Calendar = Calendar.getInstance().apply {
                 timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, Persistencia.getHorarioNotificacao())
+                set(Calendar.HOUR_OF_DAY, horario)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
             }
 
-            alarmManager.setRepeating(
+            alarmManager.setInexactRepeating(
                 AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis + 1000,
+                calendar.timeInMillis,
                 AlarmManager.INTERVAL_DAY,
                 pendingIntent
             )
 
-            Log.d("DWS.D", "Alarme criado: Horario ${Persistencia.getHorarioNotificacao()}")
+            Log.d("DWS.D", "Alarme criado: Horario $horario")
         }
-    }
-
-    fun cancelarAlarme(context: Context) {
-        val existingPendingIntent = PendingIntent.getBroadcast(
-            context,
-            ALARM_CODE,
-            Intent(context, NotificationReceiver::class.java),
-            PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        alarmManager.cancel(existingPendingIntent)
-
-        Log.d("DWS.D", "Alarme cancelado")
     }
 }
