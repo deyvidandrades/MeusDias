@@ -116,13 +116,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             else -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    permissionRequestNotificacao.launch(
-                        arrayOf(
-                            Manifest.permission.POST_NOTIFICATIONS
-                        )
+                permissionRequestNotificacao.launch(
+                    arrayOf(
+                        Manifest.permission.POST_NOTIFICATIONS
                     )
-                }
+                )
             }
         }
     }
