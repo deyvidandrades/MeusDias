@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.FileProvider
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.graphics.createBitmap
 
 object AssistenteViewToBitmap {
 
@@ -31,9 +32,7 @@ object AssistenteViewToBitmap {
     }
 
     private fun getBitmapFromView(view: View): Bitmap {
-        val bitmap = Bitmap.createBitmap(
-            view.width, view.height, Bitmap.Config.ARGB_8888
-        )
+        val bitmap = createBitmap(view.width, view.height)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
         return bitmap

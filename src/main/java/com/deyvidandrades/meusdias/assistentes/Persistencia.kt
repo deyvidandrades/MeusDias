@@ -7,6 +7,7 @@ import com.deyvidandrades.meusdias.dataclasses.Objetivo
 import com.deyvidandrades.meusdias.dataclasses.Recorde
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import androidx.core.content.edit
 
 object Persistencia {
 
@@ -54,7 +55,7 @@ object Persistencia {
 
     private fun salvarDados() {
         if (preferences != null) {
-            with(preferences!!.edit()) {
+            preferences!!.edit(commit = true) {
                 putInt(Paths.HORARIO_NOTIFICACOES.name.lowercase(), horarioNotificacoes)
                 putBoolean(Paths.NOTIFICACOES.name.lowercase(), isNotificacoes)
                 putBoolean(Paths.PLAY_REVIEW.name.lowercase(), isPlayReview)
@@ -62,7 +63,6 @@ object Persistencia {
 
                 putString(Paths.RECORDES.name.lowercase(), Gson().toJson(arrayRecordes))
                 putString(Paths.OBJETIVO.name.lowercase(), Gson().toJson(objetivo))
-                commit()
             }
             carregarDados()
         }

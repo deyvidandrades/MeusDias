@@ -3,7 +3,6 @@ package com.deyvidandrades.meusdias.dialogos
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.net.toUri
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
 import com.deyvidandrades.meusdias.assistentes.AssistenteAlarmManager
@@ -88,7 +88,7 @@ class DialogoConfiguracoes : BottomSheetDialogFragment() {
         }
         tvTermos.setOnClickListener {
             AnimacaoBotao.animar(it)
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.url_termos))))
+            startActivity(Intent(Intent.ACTION_VIEW, getString(R.string.url_termos).toUri()))
         }
 
         return view

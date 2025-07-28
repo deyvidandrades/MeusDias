@@ -1,11 +1,11 @@
 package com.deyvidandrades.meusdias.dialogos
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -54,7 +54,7 @@ class DialogoShare : BottomSheetDialogFragment(), OnItemClickListener {
 
         val shareIntent: Intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_STREAM, Uri.parse(bitmapURI.toString()))
+            putExtra(Intent.EXTRA_STREAM, bitmapURI.toString().toUri())
             type = "image/jpeg"
         }
         startActivity(Intent.createChooser(shareIntent, null))

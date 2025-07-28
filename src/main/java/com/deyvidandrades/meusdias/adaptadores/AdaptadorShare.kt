@@ -3,13 +3,13 @@ package com.deyvidandrades.meusdias.adaptadores
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.graphics.toColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.assistentes.AnimacaoBotao
@@ -43,9 +43,9 @@ class AdaptadorShare(
             holder.viewBackgroundMask.visibility = View.VISIBLE
         }
 
-        val corBG = Color.parseColor(item["bg"])
-        val corText = Color.parseColor(item["text"])
-        val corAccent = Color.parseColor(item["accent"])
+        val corBG = item["bg"]!!.toColorInt()
+        val corText = item["text"]!!.toColorInt()
+        val corAccent = item["accent"]!!.toColorInt()
 
         holder.relativeBackgroundAccent.backgroundTintList = ColorStateList.valueOf(corAccent)
         holder.viewBackgroundMask.setBackgroundColor(corBG)
