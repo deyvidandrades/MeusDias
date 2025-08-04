@@ -1,0 +1,45 @@
+<resources>
+    <string name="app_name" translatable="false">MeusDias</string>
+    <string name="cumpri_o_objetivo">Cumpri o objetivo</string>
+    <string name="deu_ruim">Deu ruim</string>
+    <string name="voce_tem_um_novo_recorde">Você tem um novo recorde!</string>
+    <string name="voc_ja_esta_a_dias">Você já está a %1$d dias %2$s</string>
+    <string name="estou_a_dias_sem">Estou a %1$d dias %2$s</string>
+    <string name="voce_cumpriu_seu_objetivo_hoje">Você cumpriu seu objetivo hoje</string>
+    <string name="cumpriu">cumpriu</string>
+    <string name="agora">agora</string>
+
+    <string name="minutos_atras">%1$d minutos%2$s atrás</string>
+    <string name="horas_atras">%1$d hora%2$s atrás</string>
+    <string name="dias_atras">%1$d dia%2$s atrás</string>
+    <string name="mes_atras">%1$d mês%2$s atrás</string>
+    <string name="anos_atras">%1$d ano%2$s atrás</string>
+
+    <string name="confirmar">Confirmar</string>
+    <string name="cancelar">Cancelar</string>
+
+    <string name="estou_a">Estou a</string>
+    <string name="dias">dias</string>
+    <string name="dia">dia</string>
+    <string name="meu_recorde_e_de">Meu recorde é de</string>
+    <string name="sem">sem…</string>
+
+    <string name="seus_recordes">Seus recordes</string>
+    <string name="deletar_objetivo">Deletar objetivo</string>
+    <string name="tem_certeza_que_deseja_deletar_esse_objetivo">Tem certeza que deseja deletar esse objetivo?</string>
+    <string name="clique_e_segure_na_frase_para_editar">Clique e segure na frase para editar.</string>
+    <string name="falha_ao_compartilhar_tente_novamente">Falha ao compartilhar, tente novamente</string>
+
+    <string name="customizacao">Customização</string>
+    <string name="tema_escuro">Tema escuro</string>
+    <string name="notificacoes">Notificações</string>
+    <string name="horario">Horário</string>
+    <string name="dados">Dados</string>
+    <string name="deletar_dados">Deletar dados</string>
+    <string name="sobre">Sobre</string>
+    <string name="termos_e_condicoes">Termos e condições</string>
+    <string name="limpar_dados">Limpar dados</string>
+    <string name="se_voce_confirmar_todos_os_objetivos_serao_apagados">Se você confirmar, todos os objetivos serão apagados. Está ação é irreversível.</string>
+    <string name="termos_url" translatable="false">https://deyvidandrades.github.io/MeusDias/termos/</string>
+    <string name="canal_para_notificacoes_de_progresso" translatable="false">Canal para notificações de objetivos</string>
+</resources>
