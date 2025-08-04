@@ -1,12 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <color name="background">#e5e5e5</color>
-    <color name="surface">#eeeeee</color><!--322B47-->
-    <color name="borda">#888494</color>
-
-    <color name="text">#211C2E</color>
-    <color name="textAlt">#615C6E</color><!--#888494-->
-
-    <color name="accent">#9C99F7</color>
-</resources>
+<resources />

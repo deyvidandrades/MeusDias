@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <queries>
-        <intent>
-            <action android:name='com.instagram.share.ADD_TO_STORY' />
-            <data android:mimeType='image/jpg' />
-        </intent>
-    </queries>
 
     <application
         android:allowBackup="true"
@@ -18,13 +9,11 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Base.Theme.MeusDias">
-
+        android:theme="@style/Theme.MeusDias">
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.deyvidandrades.meusdias.provider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -33,9 +22,9 @@
         </provider>
 
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.App.Starting">
+            android:theme="@style/Theme.MeusDias">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,20 +33,7 @@
         </activity>
 
         <receiver
-            android:name=".servicos.BootReceiver"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name=".servicos.NotificationReceiver"
-            android:enabled="true" />
-        <receiver
-            android:name=".servicos.ActionReceiver"
+            android:name=".workers.ActionReceiver"
             android:enabled="true" />
     </application>
-
 </manifest>

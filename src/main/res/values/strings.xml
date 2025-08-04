@@ -1,44 +1,45 @@
 <resources>
-    <string name="app_name">Meus Dias</string>
-    <string name="url_termos">https://deyvidandrades.github.io/MeusDias/termos/</string>
-
-    <string name="meu_recorde_de">Meu recorde é de</string>
-    <string name="_0_dias">0 dias</string>
-    <string name="estou_a">Estou a</string>
-    <string name="clique_longo_para_editar">clique e segure na frase para editar.</string>
-    <string name="clique_longo_para_salvar">digite um ponto final para salvar.</string>
-    <string name="menu_de_op_es">Menu de opções</string>
-    <string name="sem">sem…</string>
-    <string name="a_o_de_compartilhar">Ação de compartilhar</string>
-    <string name="escolha_um_cart_o_e_clique_nele_para_confirmar">Escolha um cartão para confirmar.</string>
-    <string name="canal_para_notificacoes_de_progresso">Canal para notificações de progresso</string>
+    <string name="app_name" translatable="false">MeusDias</string>
     <string name="cumpri_o_objetivo">Cumpri o objetivo</string>
     <string name="deu_ruim">Deu ruim</string>
     <string name="voce_tem_um_novo_recorde">Você tem um novo recorde!</string>
-    <string name="voce_ja_esta_a_dias_sem">Você já está a %1$s dias sem %2$s</string>
-    <string name="voce_cumpriu_seu_objetivo_hoje">Você cumpriu seu objetivo hoje?</string>
-    <string name="estou_a_dias_sem">Estou a %1$s dias sem %2$s</string>
-    <string name="dados_resetados">Dados resetados</string>
-    <string name="esta_uma_visualiza_o_de_seus_ultimos_objetivos">Esta é uma visualização de seus últimos objetivos. A cada falha, um novo registro é adicionado no histórico. Você pode limpar os registros nas configurações do app.</string>
-    <string name="botao_de_acao_para_abrir_o_historico_de_objetivos_od_usuario">Botão de ação para abrir o histórico de objetivos od usuário</string>
-    <string name="apagar_dados">Apagar dados</string>
+    <string name="voc_ja_esta_a_dias">Você já está a %1$d dias %2$s</string>
+    <string name="estou_a_dias_sem">Estou a %1$d dias %2$s</string>
+    <string name="voce_cumpriu_seu_objetivo_hoje">Você cumpriu seu objetivo hoje</string>
+    <string name="cumpriu">cumpriu</string>
+    <string name="agora">agora</string>
+
+    <string name="minutos_atras">%1$d minutos%2$s atrás</string>
+    <string name="horas_atras">%1$d hora%2$s atrás</string>
+    <string name="dias_atras">%1$d dia%2$s atrás</string>
+    <string name="mes_atras">%1$d mês%2$s atrás</string>
+    <string name="anos_atras">%1$d ano%2$s atrás</string>
+
+    <string name="confirmar">Confirmar</string>
     <string name="cancelar">Cancelar</string>
-    <string name="clicando_em_apagar_dados_todos_os_seus_dados_ser_o_resetados_incluindo_seu_hist_rico_e_seus_recordes_pessoais">Clicando em apagar dados, todos os seus dados serão resetados, incluindo seu histórico e seus recordes pessoais.</string>
-    <string name="sem_um_objetivo">sem um objetivo</string>
-    <string name="salvar_e_fechar">Salvar e fechar</string>
-    <string name="termos_e_condicoes">Termos e condições</string>
-    <string name="recorde">Recorde</string>
-    <string name="data_de_inicio">Data de inicio</string>
+
+    <string name="estou_a">Estou a</string>
+    <string name="dias">dias</string>
+    <string name="dia">dia</string>
+    <string name="meu_recorde_e_de">Meu recorde é de</string>
+    <string name="sem">sem…</string>
+
+    <string name="seus_recordes">Seus recordes</string>
+    <string name="deletar_objetivo">Deletar objetivo</string>
+    <string name="tem_certeza_que_deseja_deletar_esse_objetivo">Tem certeza que deseja deletar esse objetivo?</string>
+    <string name="clique_e_segure_na_frase_para_editar">Clique e segure na frase para editar.</string>
+    <string name="falha_ao_compartilhar_tente_novamente">Falha ao compartilhar, tente novamente</string>
+
     <string name="customizacao">Customização</string>
-    <string name="selecione_a_data">Selecione a data</string>
-    <string name="compartilhando_seu_recorde">Compartilhando seu recorde</string>
-    <string name="notificacoes">Notificações</string>
-    <string name="horario_das_notificacoes">Horario das notificações</string>
     <string name="tema_escuro">Tema escuro</string>
-    <string name="recursos_experimentais">Recursos experimentais</string>
-    <string name="limpar_seus_dados">Limpar seus dados</string>
-    <string name="botao_de_seta_para_esquerda">Botão de seta para a esquerda</string>
-    <string name="botao_de_seta_para_a_direita">Botão de seta para a direita</string>
-    <string name="dia">%1$s dia</string>
-    <string name="dias">%1$s dias</string>
+    <string name="notificacoes">Notificações</string>
+    <string name="horario">Horário</string>
+    <string name="dados">Dados</string>
+    <string name="deletar_dados">Deletar dados</string>
+    <string name="sobre">Sobre</string>
+    <string name="termos_e_condicoes">Termos e condições</string>
+    <string name="limpar_dados">Limpar dados</string>
+    <string name="se_voce_confirmar_todos_os_objetivos_serao_apagados">Se você confirmar, todos os objetivos serão apagados. Está ação é irreversível.</string>
+    <string name="termos_url" translatable="false">https://deyvidandrades.github.io/MeusDias/termos/</string>
+    <string name="canal_para_notificacoes_de_progresso" translatable="false">Canal para notificações de objetivos</string>
 </resources>
