@@ -16,5 +16,7 @@ para acompanhar seu progresso e manter sua motivação no topo!
 # Tecnologias
 
 * Kotlin
-* AlarmManager
+* Compose
+* MVVM
+* WorkManager
 * Konfetti
