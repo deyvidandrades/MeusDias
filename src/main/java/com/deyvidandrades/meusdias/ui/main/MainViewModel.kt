@@ -19,13 +19,13 @@ class MainViewModel(private val goalsRepository: GoalsRepository) : ViewModel() 
 
     val flowGoals: StateFlow<List<Goal>> = goalsRepository.getGoals().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Companion.WhileSubscribed(5000),
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = listOf(Goal("", 0, 0))
     )
 
     val flowCurrentGoal: StateFlow<Goal?> = flowGoals.map { goals -> goals.lastOrNull() }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Companion.WhileSubscribed(5000),
+        started = SharingStarted.WhileSubscribed(5000),
         initialValue = null
     )
 

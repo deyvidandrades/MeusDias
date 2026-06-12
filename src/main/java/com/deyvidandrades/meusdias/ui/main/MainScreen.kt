@@ -64,7 +64,7 @@ fun MainScreen(mainViewModel: MainViewModel, settingsViewModel: SettingsViewMode
             TopBar(settingsViewModel)
 
             Box(Modifier.fillMaxSize()) {
-                //Check if theres a new record and pops konfetti in case there is.
+                //Check if there's a new record and pops konfetti in case there is.
                 ShowKonfetti(goals.lastOrNull(), onNewRecord = { mainViewModel.updateRecord() })
 
                 Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxSize()) {

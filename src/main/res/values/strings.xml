@@ -1,3 +1,4 @@
+<!--suppress GrazieInspectionRunner -->
 <resources>
     <string name="app_name" translatable="false">MeusDias</string>
     <string name="cumpri_o_objetivo">Cumpri o objetivo</string>

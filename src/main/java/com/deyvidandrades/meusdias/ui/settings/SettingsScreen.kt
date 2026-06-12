@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getString
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.deyvidandrades.meusdias.R
 import com.deyvidandrades.meusdias.ui.common.ConfirmationDialog
@@ -93,7 +94,7 @@ fun DialogSettings(settingsViewModel: SettingsViewModel, onDialogDismiss: () -> 
             Text(stringResource(R.string.sobre), fontWeight = fontWeight)
 
             ButtonItem(stringResource(R.string.termos_e_condicoes), Icons.AutoMirrored.Rounded.KeyboardArrowRight) {
-                localUriHandler.openUri(context.getString(R.string.termos_url))
+                localUriHandler.openUri(getString(context, R.string.termos_url))
             }
 
             Spacer(Modifier.height(12.dp))

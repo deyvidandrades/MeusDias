@@ -11,10 +11,9 @@ android {
     defaultConfig {
         applicationId = "com.deyvidandrades.meusdias"
         minSdk = 35
-        targetSdk = 36
-        versionCode = 33
-        versionName = "2.4.2"
         targetSdk = 37
+        versionCode = 34
+        versionName = "2.4.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
