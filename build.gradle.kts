@@ -1,9 +1,6 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
-    id("com.android.application") version "8.12.0"
-    id("org.jetbrains.kotlin.android") version "2.2.0"
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.0"
+    id("com.android.application") version "9.2.1"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.10"
     kotlin("plugin.serialization") version "1.9.10"
 }
 
@@ -24,18 +21,16 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlin {
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_11
-        }
-    }
+
     buildFeatures {
         compose = true
     }
